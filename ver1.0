@@ -173,7 +173,7 @@ Function FigCon_SetUPFigureControl()
 	endif
 	DFREF dfr = root:FigCon
 	
-	String/G dfr:TopWindowName
+	String/G dfr:TopWindowName  //windowname you want controll graph
 	
 	Variable/G dfr:GWidth, dfr:ActWidth
 	Variable/G dfr:GHeight, dfr:ActHeight
