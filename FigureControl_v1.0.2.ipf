@@ -303,6 +303,9 @@ Function FigCon_ReadFromGraph()
 	string graphinfo = WinRecreation(topwinname,0)
 
 	
+	
+	xyswap = FigCon_GetModIfyGraphKey("swapXY",graphinfo)
+ 
 	switch(xyswap)	// numeric switch
 		case 0:	// execute if case matches expression
 			margin_l = FigCon_GetModIfyGraphKey("margin(left)",graphinfo)
@@ -1140,13 +1143,29 @@ Function FigCon_Button_SaveFormat(ctrlName) : ButtonControl
 	variable saveindex=0
 	if (formatindex==1) // Choose New format name
 		saveindex = ItemsInList(formatlist)-1
+		if(cmpstr("newformatname","",2))
+			abort "No name for new format name"
+			return -1
+		endif
+			
 		FigCon_SaveFormat(newformatname,saveindex)
 		print "Foremat is save as new name of", newformatname, saveindex
 
 	elseif(formatindex>1) // Overwrite to existing format
 		saveindex = formatindex-2
-		FigCon_SaveFormat(StringFromList(formatindex-1,formatlist),saveindex)
-		print "Foremat is overwiten to name of", StringFromList(formatindex-1,formatlist),saveindex
+		string oevrwitename = StringFromList(formatindex-1,formatlist)
+		variable yesno
+		Prompt yesno, "Are you sure you want to overwrite the format of"+oevrwitename+"?", popup, "yes;no"
+		
+		DoPrompt "Overwrite check", yesno
+
+		if(yesno==1)
+			FigCon_SaveFormat(oevrwitename,saveindex)
+			print "Foremat is overwiten to name of", oevrwitename
+		elseif(yesno==2)
+			print "overwrite to"+oevrwitename+"is cancelled."
+		endif	
+			
 	endif
 
 End
@@ -1198,5 +1217,59 @@ variable listindex
    while(1)
    
    nameofformat[listindex] = savestring
+
+End
+
+
+
+Function FigCon_Button_LoadFormat(ctrlName) : ButtonControl
+	String ctrlName
+	
+	String Adaptformatlist
+	
+	Adaptformatlist = RemoveListItem(0,FigCon_GetFormatNameList())
+	
+	if(cmpstr(StringFromList(0, Adaptformatlist),"",2))
+		Abort "No format is saved."
+	endif
+	
+	variable formatindex
+	Prompt formatindex, "Select format to adapt to topwindow", popup, Adaptformatlist
+	DoPrompt "Load Format", formatindex
+	
+	string formatname =  StringFromList(formatindex,Adaptformatlist)
+	FigCon_LoadFormat(formatindex) 
+	FigCon_UpdateGraph()
+	print "Foremat of"+formatname+"is adapted."
+	
+End
+
+
+//グローバル変数の数値タイプのものだけ読み込む
+Function FigCon_LoadFormat(listindex) 
+variable listindex
+
+	DFREF dfr = root:FigCon
+	wave/T 	nameofformat = dfr:nameofformat
+   Variable index = 0
+	String VariableName, Fullpathname
+	String CommandStrings
+	Variable Setvalue
+
+	string savestring = nameofformat[listindex]
+	
+	do
+	
+	   CommandStrings = StringFromList(index,savestring,";")
+		VariableName = CommandStrings[0,(strsearch(CommandStrings,"=",0)-1)]
+		Setvalue = NumberByKey(VariableName,savestring,"=",";")
+		Fullpathname = "root:FigCon:"+VariableName
+		if(exists(Fullpathname)==2)
+			NVAR val0 = dfr:$VariableName
+			val0 = Setvalue
+      endif
+      
+       index += 1
+   while(index<ItemsInList(savestring,";"))
 
 End
