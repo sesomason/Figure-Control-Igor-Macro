@@ -1123,5 +1123,80 @@ variable indexth
 
 end
 
-Function test()
+Function FigCon_Button_SaveFormat(ctrlName) : ButtonControl
+	String ctrlName
+	
+	String formatlist
+	
+	formatlist = FigCon_GetFormatNameList()
+	variable formatindex
+	String newformatname
+
+	Prompt formatindex, "New Format or overwrite", popup, formatlist
+	Prompt newformatname, "Enter New Format Name"
+	
+	DoPrompt "Save Format of topwindow as", formatindex,newformatname
+	
+	variable saveindex
+	if (formatindex==1) // Choose New format name
+		saveindex = ItemsInList(formatlist)
+		FigCon_SaveFormat(newformatname,saveindex)
+		print "Foremat is save as new name of", newformatname, saveindex
+
+	elseif(formatindex>1) // Overwrite to existing format
+		saveindex = formatindex-2
+		FigCon_SaveFormat(StringFromList(formatindex-1,formatlist),saveindex)
+		print "Foremat is save as name of", StringFromList(formatindex-1,formatlist),saveindex
+	endif
+
+End
+
+
+Function/S FigCon_GetFormatNameList()
+	DFREF dfr = root:FigCon
+	wave/T 	nameofformat = dfr:nameofformat
+	string formatnamelist = "NewFormat;"
+	
+	variable index = 0
+	string ValList, FormatName
+	
+	Do
+		ValList = nameofformat[index]
+		FormatName = StringByKey("NAME", ValList,":")
+		formatnamelist = formatnamelist + FormatName + ";"
+		index = index +1	
+	while(cmpstr(nameofformat[index],"",2))
+	
+	return formatnamelist
+End
+
+
+//グローバル変数の数値タイプのものだけ、テキストWaveのnameofformatに格納
+Function FigCon_SaveFormat(savename,listindex)
+string savename
+variable listindex
+
+	DFREF dfr = root:FigCon
+	wave/T 	nameofformat = dfr:nameofformat
+
+   Variable index = 0
+	String VariableName
+
+	savename = "NAME:"+savename
+	string savestring=savename+";"
+	
+	do
+	   VariableName = GetIndexedObjNameDFR(dfr, 2, index)
+       if (strlen(VariableName) == 0)
+			break
+		endif
+		NVAR val0 = dfr:$VariableName
+		if(cmpstr(VariableName[0],"G",2)==0)
+       savestring += VariableName + "="+num2str(val0)+";"
+      endif
+       index += 1
+   while(1)
+   
+   nameofformat[listindex] = savestring
+
 End
