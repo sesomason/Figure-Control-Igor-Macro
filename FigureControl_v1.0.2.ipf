@@ -1137,16 +1137,16 @@ Function FigCon_Button_SaveFormat(ctrlName) : ButtonControl
 	
 	DoPrompt "Save Format of topwindow as", formatindex,newformatname
 	
-	variable saveindex
+	variable saveindex=0
 	if (formatindex==1) // Choose New format name
-		saveindex = ItemsInList(formatlist)
+		saveindex = ItemsInList(formatlist)-1
 		FigCon_SaveFormat(newformatname,saveindex)
 		print "Foremat is save as new name of", newformatname, saveindex
 
 	elseif(formatindex>1) // Overwrite to existing format
 		saveindex = formatindex-2
 		FigCon_SaveFormat(StringFromList(formatindex-1,formatlist),saveindex)
-		print "Foremat is save as name of", StringFromList(formatindex-1,formatlist),saveindex
+		print "Foremat is overwiten to name of", StringFromList(formatindex-1,formatlist),saveindex
 	endif
 
 End
