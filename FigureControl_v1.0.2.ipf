@@ -11,40 +11,40 @@ Window FigureCont() : Panel
 	PauseUpdate; Silent 1		// building window...
 	FigCon_SetUPFigureControl()
 	
-	NewPanel /W=(495,100,704,515)
+	NewPanel /W=(652,119,861,522)
 	ModifyPanel cbRGB=(16385,49025,65535)
 	SetDrawLayer UserBack
 	SetDrawEnv fstyle= 1,textrgb= (32769,65535,32768)
 	DrawText 11,363,"Axis Range"
 	SetDrawEnv fsize= 10
-	DrawText 72,155,"left"
+	DrawText 72,173,"left"
 	SetDrawEnv fsize= 10
-	DrawText 132,155,"btm"
+	DrawText 132,173,"btm"
 	SetDrawEnv fsize= 10
-	DrawText 73,175,"left"
+	DrawText 73,193,"left"
 	SetDrawEnv fsize= 10
-	DrawText 132,175,"btm"
+	DrawText 132,193,"btm"
 	SetDrawEnv textrgb= (16385,16388,65535)
-	DrawText 25,203,"ticks#"
+	DrawText 25,221,"ticks#"
 	SetDrawEnv fsize= 9,textrgb= (16385,16388,65535)
-	DrawText 76,188,"main"
+	DrawText 76,206,"main"
 	SetDrawEnv fsize= 9,textrgb= (16385,16388,65535)
-	DrawText 102,188,"sub"
+	DrawText 102,206,"sub"
 	SetDrawEnv fsize= 9,textrgb= (16385,16388,65535)
-	DrawText 143,188,"main"
+	DrawText 143,206,"main"
 	SetDrawEnv fsize= 9,textrgb= (16385,16388,65535)
-	DrawText 169,188,"sub"
+	DrawText 169,206,"sub"
 	SetDrawEnv fsize= 9,textrgb= (65535,54611,49151)
-	DrawText 112,127,"s.off"
+	DrawText 112,145,"s.off"
 	SetDrawEnv fsize= 9,textrgb= (65535,60076,49151)
-	DrawText 175,127,"s.off"
+	DrawText 175,145,"s.off"
 	SetDrawEnv textrgb= (65535,60076,49151)
-	DrawText 33,155,"mirror"
-	DrawText 42,276,"Inc."
-	DrawText 34,257,"Start"
-	DrawText 23,296,"Length"
-	DrawText 7,316,"Thickness"
-	DrawText 17,237,"Position"
+	DrawText 33,173,"mirror"
+	DrawText 42,294,"Inc."
+	DrawText 34,275,"Start"
+	DrawText 23,314,"Length"
+	DrawText 7,334,"Thickness"
+	DrawText 17,255,"Position"
 	Button FigCon_TopWin_button,pos={17.00,5.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="TopW"
 	Button FigCon_TopWin_button,fSize=10
 	Button FigCon_Done_button,pos={157.00,4.00},size={35.00,16.00},proc=FigCon_Button_Done,title="done"
@@ -64,128 +64,126 @@ Window FigureCont() : Panel
 	SetVariable setvar04,pos={96.00,385.00},size={85.00,15.00},bodyWidth=60,title="right"
 	SetVariable setvar04,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar04,limits={-inf,inf,0.05},value= root:FigCon:GRange2_b
-	Button FigCon_Paste_button,pos={17.00,25.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="Paste"
-	Button FigCon_Paste_button,fSize=10,fColor=(49151,49152,65535)
-	Button FigCon_Load_button,pos={63.00,25.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="Load"
+	Button FigCon_Load_button,pos={16.00,26.00},size={45.00,26.00},proc=FigCon_Button_LoadFormat,title="Load"
 	Button FigCon_Load_button,fSize=10,fColor=(49151,49152,65535)
-	Button FigCon_Save_button,pos={109.00,25.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="Save"
-	Button FigCon_Save_button,fSize=10
-	CheckBox FigCon_XYswap_check,pos={14.00,69.00},size={53.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
+	Button FigCon_Save_button,pos={65.00,27.00},size={48.00,25.00},proc=FigCon_Button_SaveFormat,title="Save"
+	Button FigCon_Save_button,fSize=10,fColor=(49151,49152,65535)
+	CheckBox FigCon_XYswap_check,pos={14.00,87.00},size={53.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
 	CheckBox FigCon_XYswap_check,variable= root:FigCon:GSwap
-	Button FigCon_SetMargin_button,pos={15.00,88.00},size={49.00,24.00},proc=FigCon_Button_SetMargin,title="margin"
+	Button FigCon_SetMargin_button,pos={15.00,106.00},size={49.00,24.00},proc=FigCon_Button_SetMargin,title="margin"
 	Button FigCon_SetMargin_button,fSize=11,fColor=(65535,65534,49151)
-	ValDisplay FigCon_MaginLeft_valdisp,pos={72.00,85.00},size={44.00,14.00},bodyWidth=25,title="left"
+	ValDisplay FigCon_MaginLeft_valdisp,pos={72.00,103.00},size={44.00,14.00},bodyWidth=25,title="left"
 	ValDisplay FigCon_MaginLeft_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_MaginLeft_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginLeft_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginLeft_valdisp,value= #"root:FigCon:GMarg_l"
-	ValDisplay FigCon_MaginRight_valdisp,pos={124.00,84.00},size={50.00,14.00},bodyWidth=25,title="right"
+	ValDisplay FigCon_MaginRight_valdisp,pos={124.00,102.00},size={50.00,14.00},bodyWidth=25,title="right"
 	ValDisplay FigCon_MaginRight_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_MaginRight_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginRight_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginRight_valdisp,value= #"root:FigCon:GMarg_r"
-	ValDisplay FigCon_MaginTop_valdisp,pos={72.00,102.00},size={44.00,14.00},bodyWidth=25,title="top"
+	ValDisplay FigCon_MaginTop_valdisp,pos={72.00,120.00},size={44.00,14.00},bodyWidth=25,title="top"
 	ValDisplay FigCon_MaginTop_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_MaginTop_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginTop_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginTop_valdisp,value= #"root:FigCon:GMarg_t"
-	ValDisplay FigCon_MaginBottom_valdisp,pos={127.00,102.00},size={47.00,14.00},bodyWidth=25,title="btm"
+	ValDisplay FigCon_MaginBottom_valdisp,pos={127.00,120.00},size={47.00,14.00},bodyWidth=25,title="btm"
 	ValDisplay FigCon_MaginBottom_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_MaginBottom_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginBottom_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginBottom_valdisp,value= #"root:FigCon:GMarg_b"
-	TitleBox FigCon_MirrorLeft_title,pos={91.00,141.00},size={40.00,16.00}
+	TitleBox FigCon_MirrorLeft_title,pos={91.00,159.00},size={40.00,16.00}
 	TitleBox FigCon_MirrorLeft_title,labelBack=(65535,65535,65535),fSize=9,frame=5
 	TitleBox FigCon_MirrorLeft_title,variable= root:FigCon:GMirrorStr_l,anchor= LC,fixedSize=1
-	TitleBox FigCon_MirrorBottom_title,pos={154.00,141.00},size={40.00,16.00}
+	TitleBox FigCon_MirrorBottom_title,pos={154.00,159.00},size={40.00,16.00}
 	TitleBox FigCon_MirrorBottom_title,labelBack=(65535,65535,65535),fSize=9,frame=5
 	TitleBox FigCon_MirrorBottom_title,variable= root:FigCon:GMirrorStr_b,anchor= LC,fixedSize=1
-	Button FigCon_SetAxis_button,pos={15.00,119.00},size={49.00,24.00},proc=FigCon_Button_SetAxis,title="axis"
+	Button FigCon_SetAxis_button,pos={15.00,137.00},size={49.00,24.00},proc=FigCon_Button_SetAxis,title="axis"
 	Button FigCon_SetAxis_button,fSize=11,fColor=(65535,54611,49151)
-	Button FigCon_SetTicks_button,pos={15.00,159.00},size={49.00,24.00},proc=FigCon_Button_SetTicks,title="ticks"
+	Button FigCon_SetTicks_button,pos={15.00,177.00},size={49.00,24.00},proc=FigCon_Button_SetTicks,title="ticks"
 	Button FigCon_SetTicks_button,fSize=11,fColor=(49151,49152,65535)
-	TitleBox FigCon_TickstypeLeft_title,pos={91.00,160.00},size={40.00,16.00}
+	TitleBox FigCon_TickstypeLeft_title,pos={91.00,178.00},size={40.00,16.00}
 	TitleBox FigCon_TickstypeLeft_title,labelBack=(65535,65535,65535),fSize=9
 	TitleBox FigCon_TickstypeLeft_title,frame=5
 	TitleBox FigCon_TickstypeLeft_title,variable= root:FigCon:GTickStr_l,anchor= LC,fixedSize=1
-	TitleBox FigCon_TickstypeBottom_title,pos={155.00,160.00},size={40.00,16.00}
+	TitleBox FigCon_TickstypeBottom_title,pos={155.00,178.00},size={40.00,16.00}
 	TitleBox FigCon_TickstypeBottom_title,labelBack=(65535,65535,65535),fSize=9
 	TitleBox FigCon_TickstypeBottom_title,frame=5
 	TitleBox FigCon_TickstypeBottom_title,variable= root:FigCon:GTickStr_b,anchor= LC,fixedSize=1
-	ValDisplay FigCon_TicksLeft_valdisp,pos={58.00,187.00},size={37.00,14.00},bodyWidth=20,title="\\Z10left"
+	ValDisplay FigCon_TicksLeft_valdisp,pos={58.00,205.00},size={37.00,14.00},bodyWidth=20,title="\\Z10left"
 	ValDisplay FigCon_TicksLeft_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_TicksLeft_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_TicksLeft_valdisp,value= #"root:FigCon:GNtick_l"
-	ValDisplay FigCon_TicksBottom_valdisp,pos={122.00,187.00},size={41.00,14.00},bodyWidth=20,title="\\Z10btm"
+	ValDisplay FigCon_TicksBottom_valdisp,pos={122.00,205.00},size={41.00,14.00},bodyWidth=20,title="\\Z10btm"
 	ValDisplay FigCon_TicksBottom_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_TicksBottom_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_TicksBottom_valdisp,value= #"root:FigCon:GNtick_b"
-	ValDisplay FigCon_TickssubLeft_valdisp,pos={100.00,187.00},size={20.00,14.00},bodyWidth=20
+	ValDisplay FigCon_TickssubLeft_valdisp,pos={100.00,205.00},size={20.00,14.00},bodyWidth=20
 	ValDisplay FigCon_TickssubLeft_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_TickssubLeft_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_TickssubLeft_valdisp,value= #"root:FigCon:GNticksub_l"
-	ValDisplay FigCon_TickssubBottom_valdisp,pos={168.00,187.00},size={20.00,14.00},bodyWidth=20
+	ValDisplay FigCon_TickssubBottom_valdisp,pos={168.00,205.00},size={20.00,14.00},bodyWidth=20
 	ValDisplay FigCon_TickssubBottom_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_TickssubBottom_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_TickssubBottom_valdisp,value= #"root:FigCon:GNticksub_l"
-	ValDisplay FigCon_AxisTickLeft_valdisp,pos={72.00,124.00},size={37.00,14.00},bodyWidth=20,title="\\Z10left"
+	ValDisplay FigCon_AxisTickLeft_valdisp,pos={72.00,142.00},size={37.00,14.00},bodyWidth=20,title="\\Z10left"
 	ValDisplay FigCon_AxisTickLeft_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_AxisTickLeft_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_AxisTickLeft_valdisp,value= #"root:FigCon:GAxisthick_l"
-	ValDisplay FigCon_AxisTickBottom_valdisp,pos={132.00,124.00},size={41.00,14.00},bodyWidth=20,title="\\Z10btm"
+	ValDisplay FigCon_AxisTickBottom_valdisp,pos={132.00,142.00},size={41.00,14.00},bodyWidth=20,title="\\Z10btm"
 	ValDisplay FigCon_AxisTickBottom_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_AxisTickBottom_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_AxisTickBottom_valdisp,value= #"root:FigCon:GAxisthick_b"
-	CheckBox check2,pos={114.00,124.00},size={15.00,15.00},disable=2,title=""
+	CheckBox check2,pos={114.00,142.00},size={15.00,15.00},disable=2,title=""
 	CheckBox check2,variable= root:FigCon:GAxisStandoff_l,mode=1
-	CheckBox check3,pos={177.00,124.00},size={15.00,15.00},disable=2,title=""
+	CheckBox check3,pos={177.00,142.00},size={15.00,15.00},disable=2,title=""
 	CheckBox check3,variable= root:FigCon:GAxisStandoff_b,mode=1
-	TitleBox FigCon_MirrorLeft_title1,pos={117.00,47.00},size={35.00,16.00},fSize=9
+	TitleBox FigCon_MirrorLeft_title1,pos={117.00,65.00},size={35.00,16.00},fSize=9
 	TitleBox FigCon_MirrorLeft_title1,frame=5
 	TitleBox FigCon_MirrorLeft_title1,variable= root:FigCon:GSizeStr_w,anchor= LC,fixedSize=1
-	ValDisplay FigCon_Gwidth_valdisp,pos={67.00,47.00},size={47.00,14.00},bodyWidth=35,title="w"
+	ValDisplay FigCon_Gwidth_valdisp,pos={67.00,65.00},size={47.00,14.00},bodyWidth=35,title="w"
 	ValDisplay FigCon_Gwidth_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_Gwidth_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_Gwidth_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_Gwidth_valdisp,value= #"root:FigCon:GWidth"
-	ValDisplay FigCon_Gheight_valdisp,pos={69.00,66.00},size={45.00,14.00},bodyWidth=35,title="h"
+	ValDisplay FigCon_Gheight_valdisp,pos={69.00,84.00},size={45.00,14.00},bodyWidth=35,title="h"
 	ValDisplay FigCon_Gheight_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_Gheight_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_Gheight_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_Gheight_valdisp,value= #"root:FigCon:GHeight"
-	TitleBox FigCon_MirrorLeft_title2,pos={117.00,66.00},size={35.00,16.00},fSize=9
+	TitleBox FigCon_MirrorLeft_title2,pos={117.00,84.00},size={35.00,16.00},fSize=9
 	TitleBox FigCon_MirrorLeft_title2,frame=5
 	TitleBox FigCon_MirrorLeft_title2,variable= root:FigCon:GSizeStr_h,anchor= LC,fixedSize=1
-	ValDisplay FigCon_GaspectW_valdisp,pos={154.00,47.00},size={35.00,14.00},bodyWidth=35
+	ValDisplay FigCon_GaspectW_valdisp,pos={154.00,65.00},size={35.00,14.00},bodyWidth=35
 	ValDisplay FigCon_GaspectW_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_GaspectW_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_GaspectW_valdisp,value= #"root:FigCon:Gaspect_w"
-	ValDisplay FigCon_GaspectH_valdisp,pos={154.00,66.00},size={35.00,14.00},bodyWidth=35
+	ValDisplay FigCon_GaspectH_valdisp,pos={154.00,84.00},size={35.00,14.00},bodyWidth=35
 	ValDisplay FigCon_GaspectH_valdisp,font="Helvetica",fSize=11
 	ValDisplay FigCon_GaspectH_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_GaspectH_valdisp,value= #"root:FigCon:Gaspect_h"
-	Button FigCon_SetSize_button,pos={15.00,45.00},size={49.00,24.00},proc=FigCon_Button_SetSize,title="size"
+	Button FigCon_SetSize_button,pos={15.00,63.00},size={49.00,24.00},proc=FigCon_Button_SetSize,title="size"
 	Button FigCon_SetSize_button,fSize=11,fColor=(65535,65532,16385)
-	SetVariable FigCon_Manualticks_incL,pos={63.00,262.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_incL,pos={63.00,280.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_incL,limits={0,inf,0.1},value= root:FigCon:GmantickIncrement_l
-	SetVariable FigCon_Manualticks_incB,pos={122.00,262.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
+	SetVariable FigCon_Manualticks_incB,pos={122.00,280.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_incB,limits={0,inf,0.1},value= root:FigCon:GmantickIncrement_b
-	SetVariable FigCon_Manualticks_startvalL,pos={63.00,242.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_startvalL,pos={63.00,260.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_startvalL,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_l
-	SetVariable FigCon_Manualticks_startvalB,pos={122.00,242.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
+	SetVariable FigCon_Manualticks_startvalB,pos={122.00,260.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_startvalB,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_b
-	SetVariable FigCon_Manualticks_lengthL,pos={63.00,282.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_lengthL,pos={63.00,300.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_lengthL,limits={0,inf,0.1},value= root:FigCon:GmantickLength_l
-	SetVariable FigCon_Manualticks_lengthB,pos={122.00,282.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
+	SetVariable FigCon_Manualticks_lengthB,pos={122.00,300.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_lengthB,limits={0,inf,0.1},value= root:FigCon:GmantickLength_b
-	SetVariable FigCon_Manualticks_thicknessL,pos={63.00,302.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_thicknessL,pos={63.00,320.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_thicknessL,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_l
-	SetVariable FigCon_Manualticks_thicknessB,pos={122.00,302.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
+	SetVariable FigCon_Manualticks_thicknessB,pos={122.00,320.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_thicknessB,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_b
-	SetVariable FigCon_Manualticks_positionL,pos={63.00,222.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_positionL,pos={63.00,240.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_positionL,help={"0:外側, 1:中央, 2:内側, 3:なし"}
 	SetVariable FigCon_Manualticks_positionL,limits={0,3,1},value= root:FigCon:GmantickPosition_l,noedit= 1
-	SetVariable FigCon_Manualticks_positionB,pos={122.00,222.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
+	SetVariable FigCon_Manualticks_positionB,pos={122.00,240.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_positionB,help={"0:外側, 1:中央, 2:内側, 3:なし"}
 	SetVariable FigCon_Manualticks_positionB,limits={0,3,1},value= root:FigCon:GmantickPosition_b,noedit= 1
 EndMacro
