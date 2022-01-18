@@ -1141,13 +1141,19 @@ Function FigCon_Button_SaveFormat(ctrlName) : ButtonControl
 	DoPrompt "Save Format of topwindow as", formatindex,newformatname
 	
 	variable saveindex=0
+	
 	if (formatindex==1) // Choose New format name
 		saveindex = ItemsInList(formatlist)-1
-		if(cmpstr("newformatname","",2))
+		if(!cmpstr(newformatname,"",2))
 			abort "No name for new format name"
 			return -1
 		endif
-			
+		
+		string checkname1 = StringFromList(1,formatlist)
+		if(!cmpstr(checkname1,"",2))
+			saveindex = saveindex-1
+		endif
+		
 		FigCon_SaveFormat(newformatname,saveindex)
 		print "Foremat is save as new name of", newformatname, saveindex
 
@@ -1190,7 +1196,7 @@ Function/S FigCon_GetFormatNameList()
 End
 
 
-//グローバル変数の数値タイプのものだけ、テキストWaveのnameofformatに格納
+//グローバル変数の数値タイプのものだけテキストWaveのnameofformatに格納
 Function FigCon_SaveFormat(savename,listindex)
 string savename
 variable listindex
@@ -1201,22 +1207,27 @@ variable listindex
    Variable index = 0
 	String VariableName
 
-	savename = "NAME:"+savename
+	//savestringにFigCon内のグローバル変数の値を"GHeight=300"などの文字情報として格納
+	// "Gxxxx=..;Gxxxx;="というリスト形式にformat
+	// 一番最初のNAME:=....は、グローバル変数でなく、保存したいformatの名前とする
+	savename = "NAME:"+savename 
 	string savestring=savename+";"
 	
 	do
-	   VariableName = GetIndexedObjNameDFR(dfr, 2, index)
-       if (strlen(VariableName) == 0)
+	   VariableName = GetIndexedObjNameDFR(dfr, 2, index) //FigConフォルダ内のindex番目のグローバル数値変数の名前
+       if (strlen(VariableName) == 0) //do-whileループの抜け出し条件
 			break
 		endif
-		NVAR val0 = dfr:$VariableName
-		if(cmpstr(VariableName[0],"G",2)==0)
-       savestring += VariableName + "="+num2str(val0)+";"
+		NVAR val0 = dfr:$VariableName //index番目のグローバル数値変数の中身
+		if(cmpstr(VariableName[0],"G",2)==0) // 条件:VariableNameがGで始まる変数名ならtrue
+			if(cmpstr(VariableName[0,3],"GRan",2)==1) ///条件:VariableNameがGRanで始まる変数名でなければtrue
+       		savestring += VariableName + "="+num2str(val0)+";"
+       	endif
       endif
        index += 1
    while(1)
    
-   nameofformat[listindex] = savestring
+   nameofformat[listindex] = savestring //formatの全情報をいれたsavestringを、nameofformatのlistindex番目に格納
 
 End
 
@@ -1229,7 +1240,7 @@ Function FigCon_Button_LoadFormat(ctrlName) : ButtonControl
 	
 	Adaptformatlist = RemoveListItem(0,FigCon_GetFormatNameList())
 	
-	if(cmpstr(StringFromList(0, Adaptformatlist),"",2))
+	if(!cmpstr(StringFromList(0, Adaptformatlist),"",2))
 		Abort "No format is saved."
 	endif
 	
@@ -1237,10 +1248,10 @@ Function FigCon_Button_LoadFormat(ctrlName) : ButtonControl
 	Prompt formatindex, "Select format to adapt to topwindow", popup, Adaptformatlist
 	DoPrompt "Load Format", formatindex
 	
-	string formatname =  StringFromList(formatindex,Adaptformatlist)
-	FigCon_LoadFormat(formatindex) 
+	string formatname =  StringFromList(formatindex-1,Adaptformatlist)
+	FigCon_LoadFormat(formatindex-1) 
 	FigCon_UpdateGraph()
-	print "Foremat of"+formatname+"is adapted."
+	print "Foremat of "+formatname+" is adapted."
 	
 End
 
@@ -1256,8 +1267,10 @@ variable listindex
 	String CommandStrings
 	Variable Setvalue
 
-	string savestring = nameofformat[listindex]
+	string savestring = nameofformat[listindex]  //Loadしたいformat情報をsavestringに読み込む
 	
+	// savestring = "NAME:....;Gxxxx=....;Gxxxx=....;Gxxxx=....;"　という文字情報リスト
+
 	do
 	
 	   CommandStrings = StringFromList(index,savestring,";")
