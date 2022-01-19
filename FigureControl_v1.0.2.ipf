@@ -11,7 +11,7 @@ Window FigureCont() : Panel
 	PauseUpdate; Silent 1		// building window...
 	FigCon_SetUPFigureControl()
 	
-	NewPanel /W=(652,119,861,522)
+	NewPanel /W=(644,119,853,522)
 	ModifyPanel cbRGB=(16385,49025,65535)
 	SetDrawLayer UserBack
 	SetDrawEnv fstyle= 1,textrgb= (32769,65535,32768)
@@ -46,11 +46,11 @@ Window FigureCont() : Panel
 	DrawText 7,334,"Thickness"
 	DrawText 17,255,"Position"
 	Button FigCon_TopWin_button,pos={17.00,5.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="TopW"
-	Button FigCon_TopWin_button,fSize=10
+	Button FigCon_TopWin_button,font="Arial",fSize=10
 	Button FigCon_Done_button,pos={157.00,4.00},size={35.00,16.00},proc=FigCon_Button_Done,title="done"
-	Button FigCon_Done_button,fSize=10,fColor=(65535,32768,32768)
+	Button FigCon_Done_button,font="Arial",fSize=10,fColor=(65535,32768,32768)
 	TitleBox FigCon_TopWinn_title,pos={66.00,3.00},size={80.00,19.00}
-	TitleBox FigCon_TopWinn_title,labelBack=(65535,65535,65535)
+	TitleBox FigCon_TopWinn_title,labelBack=(65535,65535,65535),font="Arial"
 	TitleBox FigCon_TopWinn_title,variable= root:FigCon:TopWindowName,fixedSize=1
 	SetVariable setvar01,pos={101.00,368.00},size={80.00,15.00},bodyWidth=60,title="low"
 	SetVariable setvar01,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
@@ -64,31 +64,31 @@ Window FigureCont() : Panel
 	SetVariable setvar04,pos={96.00,385.00},size={85.00,15.00},bodyWidth=60,title="right"
 	SetVariable setvar04,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar04,limits={-inf,inf,0.05},value= root:FigCon:GRange2_b
-	Button FigCon_Load_button,pos={16.00,26.00},size={45.00,26.00},proc=FigCon_Button_LoadFormat,title="Load"
-	Button FigCon_Load_button,fSize=10,fColor=(49151,49152,65535)
-	Button FigCon_Save_button,pos={65.00,27.00},size={48.00,25.00},proc=FigCon_Button_SaveFormat,title="Save"
-	Button FigCon_Save_button,fSize=10,fColor=(49151,49152,65535)
-	CheckBox FigCon_XYswap_check,pos={14.00,87.00},size={53.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
-	CheckBox FigCon_XYswap_check,variable= root:FigCon:GSwap
+	Button FigCon_Load_button,pos={10.00,26.00},size={52.00,30.00},proc=FigCon_Button_LoadFormat,title="Choese\r Format"
+	Button FigCon_Load_button,font="Arial",fSize=10,fColor=(49151,49152,65535)
+	Button FigCon_Save_button,pos={65.00,26.00},size={52.00,30.00},proc=FigCon_Button_SaveFormat,title="Save\rFormat"
+	Button FigCon_Save_button,font="Arial",fSize=10,fColor=(49151,49152,65535)
+	CheckBox FigCon_XYswap_check,pos={14.00,87.00},size={54.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
+	CheckBox FigCon_XYswap_check,font="Arial",variable= root:FigCon:GSwap
 	Button FigCon_SetMargin_button,pos={15.00,106.00},size={49.00,24.00},proc=FigCon_Button_SetMargin,title="margin"
-	Button FigCon_SetMargin_button,fSize=11,fColor=(65535,65534,49151)
-	ValDisplay FigCon_MaginLeft_valdisp,pos={72.00,103.00},size={44.00,14.00},bodyWidth=25,title="left"
-	ValDisplay FigCon_MaginLeft_valdisp,font="Helvetica",fSize=11
+	Button FigCon_SetMargin_button,font="Arial",fSize=11,fColor=(65535,65534,49151)
+	ValDisplay FigCon_MaginLeft_valdisp,pos={72.00,103.00},size={44.00,15.00},bodyWidth=25,title="left"
+	ValDisplay FigCon_MaginLeft_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_MaginLeft_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginLeft_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginLeft_valdisp,value= #"root:FigCon:GMarg_l"
-	ValDisplay FigCon_MaginRight_valdisp,pos={124.00,102.00},size={50.00,14.00},bodyWidth=25,title="right"
-	ValDisplay FigCon_MaginRight_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_MaginRight_valdisp,pos={124.00,102.00},size={50.00,15.00},bodyWidth=25,title="right"
+	ValDisplay FigCon_MaginRight_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_MaginRight_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginRight_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginRight_valdisp,value= #"root:FigCon:GMarg_r"
-	ValDisplay FigCon_MaginTop_valdisp,pos={72.00,120.00},size={44.00,14.00},bodyWidth=25,title="top"
-	ValDisplay FigCon_MaginTop_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_MaginTop_valdisp,pos={72.00,120.00},size={44.00,15.00},bodyWidth=25,title="top"
+	ValDisplay FigCon_MaginTop_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_MaginTop_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginTop_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginTop_valdisp,value= #"root:FigCon:GMarg_t"
-	ValDisplay FigCon_MaginBottom_valdisp,pos={127.00,120.00},size={47.00,14.00},bodyWidth=25,title="btm"
-	ValDisplay FigCon_MaginBottom_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_MaginBottom_valdisp,pos={127.00,120.00},size={47.00,15.00},bodyWidth=25,title="btm"
+	ValDisplay FigCon_MaginBottom_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_MaginBottom_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_MaginBottom_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_MaginBottom_valdisp,value= #"root:FigCon:GMarg_b"
@@ -99,7 +99,7 @@ Window FigureCont() : Panel
 	TitleBox FigCon_MirrorBottom_title,labelBack=(65535,65535,65535),fSize=9,frame=5
 	TitleBox FigCon_MirrorBottom_title,variable= root:FigCon:GMirrorStr_b,anchor= LC,fixedSize=1
 	Button FigCon_SetAxis_button,pos={15.00,137.00},size={49.00,24.00},proc=FigCon_Button_SetAxis,title="axis"
-	Button FigCon_SetAxis_button,fSize=11,fColor=(65535,54611,49151)
+	Button FigCon_SetAxis_button,font="Arial",fSize=11,fColor=(65535,54611,49151)
 	Button FigCon_SetTicks_button,pos={15.00,177.00},size={49.00,24.00},proc=FigCon_Button_SetTicks,title="ticks"
 	Button FigCon_SetTicks_button,fSize=11,fColor=(49151,49152,65535)
 	TitleBox FigCon_TickstypeLeft_title,pos={91.00,178.00},size={40.00,16.00}
@@ -138,32 +138,32 @@ Window FigureCont() : Panel
 	CheckBox check2,variable= root:FigCon:GAxisStandoff_l,mode=1
 	CheckBox check3,pos={177.00,142.00},size={15.00,15.00},disable=2,title=""
 	CheckBox check3,variable= root:FigCon:GAxisStandoff_b,mode=1
-	TitleBox FigCon_MirrorLeft_title1,pos={117.00,65.00},size={35.00,16.00},fSize=9
-	TitleBox FigCon_MirrorLeft_title1,frame=5
+	TitleBox FigCon_MirrorLeft_title1,pos={117.00,65.00},size={35.00,16.00}
+	TitleBox FigCon_MirrorLeft_title1,font="Arial",fSize=9,frame=5
 	TitleBox FigCon_MirrorLeft_title1,variable= root:FigCon:GSizeStr_w,anchor= LC,fixedSize=1
-	ValDisplay FigCon_Gwidth_valdisp,pos={67.00,65.00},size={47.00,14.00},bodyWidth=35,title="w"
-	ValDisplay FigCon_Gwidth_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_Gwidth_valdisp,pos={67.00,65.00},size={47.00,15.00},bodyWidth=35,title="w"
+	ValDisplay FigCon_Gwidth_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_Gwidth_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_Gwidth_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_Gwidth_valdisp,value= #"root:FigCon:GWidth"
-	ValDisplay FigCon_Gheight_valdisp,pos={69.00,84.00},size={45.00,14.00},bodyWidth=35,title="h"
-	ValDisplay FigCon_Gheight_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_Gheight_valdisp,pos={69.00,84.00},size={45.00,15.00},bodyWidth=35,title="h"
+	ValDisplay FigCon_Gheight_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_Gheight_valdisp,valueBackColor=(65535,43688,32768)
 	ValDisplay FigCon_Gheight_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_Gheight_valdisp,value= #"root:FigCon:GHeight"
-	TitleBox FigCon_MirrorLeft_title2,pos={117.00,84.00},size={35.00,16.00},fSize=9
-	TitleBox FigCon_MirrorLeft_title2,frame=5
+	TitleBox FigCon_MirrorLeft_title2,pos={117.00,84.00},size={35.00,16.00}
+	TitleBox FigCon_MirrorLeft_title2,font="Arial",fSize=9,frame=5
 	TitleBox FigCon_MirrorLeft_title2,variable= root:FigCon:GSizeStr_h,anchor= LC,fixedSize=1
-	ValDisplay FigCon_GaspectW_valdisp,pos={154.00,65.00},size={35.00,14.00},bodyWidth=35
-	ValDisplay FigCon_GaspectW_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_GaspectW_valdisp,pos={154.00,65.00},size={35.00,15.00},bodyWidth=35
+	ValDisplay FigCon_GaspectW_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_GaspectW_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_GaspectW_valdisp,value= #"root:FigCon:Gaspect_w"
-	ValDisplay FigCon_GaspectH_valdisp,pos={154.00,84.00},size={35.00,14.00},bodyWidth=35
-	ValDisplay FigCon_GaspectH_valdisp,font="Helvetica",fSize=11
+	ValDisplay FigCon_GaspectH_valdisp,pos={154.00,84.00},size={35.00,15.00},bodyWidth=35
+	ValDisplay FigCon_GaspectH_valdisp,font="Arial",fSize=11
 	ValDisplay FigCon_GaspectH_valdisp,limits={0,0,0},barmisc={0,1000}
 	ValDisplay FigCon_GaspectH_valdisp,value= #"root:FigCon:Gaspect_h"
 	Button FigCon_SetSize_button,pos={15.00,63.00},size={49.00,24.00},proc=FigCon_Button_SetSize,title="size"
-	Button FigCon_SetSize_button,fSize=11,fColor=(65535,65532,16385)
+	Button FigCon_SetSize_button,font="Arial",fSize=11,fColor=(65535,65532,16385)
 	SetVariable FigCon_Manualticks_incL,pos={63.00,280.00},size={58.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
 	SetVariable FigCon_Manualticks_incL,limits={0,inf,0.1},value= root:FigCon:GmantickIncrement_l
 	SetVariable FigCon_Manualticks_incB,pos={122.00,280.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
@@ -186,6 +186,13 @@ Window FigureCont() : Panel
 	SetVariable FigCon_Manualticks_positionB,pos={122.00,240.00},size={76.00,14.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="bottom"
 	SetVariable FigCon_Manualticks_positionB,help={"0:外側, 1:中央, 2:内側, 3:なし"}
 	SetVariable FigCon_Manualticks_positionB,limits={0,3,1},value= root:FigCon:GmantickPosition_b,noedit= 1
+	TitleBox FigCon_TextFileName_title,pos={123.00,26.00},size={80.00,14.00}
+	TitleBox FigCon_TextFileName_title,labelBack=(65535,65535,65535),font="Arial"
+	TitleBox FigCon_TextFileName_title,fSize=9,frame=0
+	TitleBox FigCon_TextFileName_title,variable= root:FigCon:externalfilename,fixedSize=1
+	PopupMenu Figcon_TextFile_popup,pos={121.00,41.00},size={80.00,23.00},bodyWidth=80,proc=Figcon_popup_TextFileSaveLoad,title="File..."
+	PopupMenu Figcon_TextFile_popup,font="Arial",fSize=7
+	PopupMenu Figcon_TextFile_popup,mode=0,value= #"\"SaveList;SaveListAs;LoadList;\""
 EndMacro
 
 
@@ -224,6 +231,10 @@ Function FigCon_SetUPFigureControl()
 	
 	Make/N=100/T/O dfr:nameofformat
 	String/G dfr:formatfilename
+	
+	String/G dfr:externalfilename
+	String/G dfr:externalfilepath
+
 		
 	// strings of popup menu for size mode
 	Make/N=4/O/T dfr:sizestrings = {"auto","abs","unit","aspect","plan"}
@@ -1284,3 +1295,108 @@ variable listindex
    while(index<ItemsInList(savestring,";"))
 
 End
+
+
+
+Function Figcon_popup_TextFileSaveLoad(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  //1: Save,2:Save As, 3:Load
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR filename = dfr:externalfilename
+	SVAR filepath = dfr:externalfilepath
+	
+	variable refnum
+	string fn, endstr
+	
+	switch(popNum)	
+		case 1:	// Save (New or overwrite)
+			if(strlen(filename)==0 && strlen(filename)==0) //Save New	
+				prompt fn, "Enter file name as new text file"
+				Doprompt "New File Save",fn
+				filename = fn 
+				Open refnum as fn
+				endstr = ParseFilePath(0, S_filename, ":", 1, 0)
+				filepath = Removeending(s_filename,endstr)
+				FigCon_SaveTextFile(refnum)
+				close refnum
+				
+			else									// Save to current text file 
+				fn = filename
+				newpath path1, filepath
+				Open/P=path1 refnum as fn
+				FigCon_SaveTextFile(refnum)
+				close refnum
+				killpath path1
+			endif
+			break
+		case 2:  // Save as...
+			prompt fn, "Enter file name as text file"
+			Doprompt "New File Save as..",fn
+			filename = fn 
+			Open refnum as fn
+			endstr = ParseFilePath(0, S_filename, ":", 1, 0)
+			filepath = Removeending(s_filename,endstr)
+			FigCon_SaveTextFile(refnum)
+			close refnum
+			break
+		case 3:  //Load
+			Open/R refnum
+			endstr = ParseFilePath(0, S_filename, ":", 1, 0)
+			filename = Removeending(endstr,".txt")
+			filepath = Removeending(s_filename,endstr)
+			FigCon_LoadTextFile(refnum)
+			close refnum
+	
+	endswitch
+
+End
+
+
+Function FigCon_SaveTextFile(refnum)
+variable refnum
+	
+	DFREF dfr = root:FigCon
+	WAve/T nameofformat=dfr:nameofformat
+	
+	variable index
+	string formatinfo
+	Do
+		formatinfo = nameofformat[index]
+		if (strlen(formatinfo) == 0) //do-whileループの抜け出し条件
+			break
+		endif
+		
+		fprintf refNum,formatinfo+"\r" ,index
+		index=index+1
+	while(1)
+	
+end
+
+
+Function FigCon_LoadTextFile(refnum)
+variable refnum
+	
+	DFREF dfr = root:FigCon
+	WAve/T nameofformat=dfr:nameofformat
+	
+	nameofformat = ""
+	variable index, len
+	string formatinfo, buffer
+	Do
+ 		FReadLine refNum, buffer
+      len = strlen(buffer)
+      if (len == 0) //do-whileループの抜け出し条件
+      		break
+      	endif
+		if (CmpStr(buffer[len-1],"\r") == 0)   
+			formatinfo = RemoveEnding(buffer,"\r")
+      endif
+
+		nameofformat[index] = formatinfo
+
+		index=index+1
+	while(1)
+	
+end
