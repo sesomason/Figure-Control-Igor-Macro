@@ -220,6 +220,7 @@ Function FigCon_SetUPFigureControl()
 	Variable/G dfr:GRange1_b,dfr:GRange2_b
 	Variable/G dfr:GSwap=0
 	
+	Variable/G dfr:Gticksmode
 	Variable/G dfr:GTick_l,dfr:GTick_b
 	Variable/G dfr:GNtick_l,dfr:GNtick_b
 	Variable/G dfr:GNticksub_l,dfr:GNticksub_b		
@@ -228,14 +229,15 @@ Function FigCon_SetUPFigureControl()
 	Variable/G dfr:GmantickLength_l,dfr:GmantickLength_b
 	Variable/G dfr:GmantickThickness_l,dfr:GmantickThickness_b
 	Variable/G dfr:GmantickPosition_l,dfr:GmantickPosition_b
+	Variable/G dfr:GmantickDicimal_l,dfr:GmantickDicimal_b
+	Variable/G dfr:GtlOffset_l,dfr:GtlOffset_b
 	
 	Make/N=100/T/O dfr:nameofformat
 	String/G dfr:formatfilename
 	
 	String/G dfr:externalfilename
 	String/G dfr:externalfilepath
-
-		
+	
 	// strings of popup menu for size mode
 	Make/N=4/O/T dfr:sizestrings = {"auto","abs","unit","aspect","plan"}
 	String/G dfr:GSizeStr_h,dfr:GSizeStr_w
@@ -377,6 +379,7 @@ Function FigCon_UpdateGraph()
 	NVAR axisthick_l = dfr:GAxisthick_l, axisthick_b = dfr:GAxisthick_b
 	NVAR standoff_l = dfr:GAxisStandoff_l, standoff_b = dfr:GAxisStandoff_b
 
+	NVAR ticksmode = dfr:Gticksmode
 	NVAR tick_l = dfr:GTick_l,tick_b = dfr:GTick_b
 	NVAR ntick_l = dfr:GNtick_l,ntick_b = dfr:GNTick_b
 	NVAR tickstart_l = dfr:GmantickStart_l
@@ -387,15 +390,23 @@ Function FigCon_UpdateGraph()
 	NVAR ticklength_b = dfr:GmantickLength_b
 	NVAR tickthickness_l = dfr:GmantickThickness_l
 	NVAR tickthickness_b = dfr:GmantickThickness_b
-	NVAR tickposition_l = dfr:GmantickPosition_l
-	NVAR tickposition_b = dfr:GmantickPosition_b
-		
+	NVAR tickdicimal_l = dfr:GmantickDicimal_l
+	NVAR tickdicimal_b = dfr:GmantickDicimal_b
+	NVAR tlOffset_l =dfr:GtlOffset_l
+	NVAR tlOffset_b =dfr:GtlOffset_b
+
+
 	NVAR xyswap=dfr:GSwap
 	NVAR axisflag=dfr:PastLink
 	
 	//string graphinfo = WinRecreation(topwinname,0)
 	//ModifyGraph swapXY=xyswap
 	
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	 
 	Dowindow/F $topwinname
 	
 	FigCon_UpdateGraphsize()
@@ -412,19 +423,25 @@ Function FigCon_UpdateGraph()
 	ModifyGraph axThick(left)=axisthick_l
 	ModifyGraph axThick(bottom)=axisthick_b
 
+	if (ticksmode==1)
+		ModifyGraph manTick(left)=0
+		ModifyGraph manTick(bottom)=0
+		ModifyGraph nticks(left)=ntick_l
+		ModifyGraph nticks(bottom)=ntick_b
+	elseif (ticksmode==2)
+		ModifyGraph manTick(left)={tickstart_l,tickinc_l,0,tickdicimal_l}
+		ModifyGraph manTick(bottom)={tickstart_b,tickinc_b,0,tickdicimal_b}
+	endif
+	
 	ModifyGraph tick(left)=tick_l
 	ModifyGraph tick(bottom)=tick_b
-	ModifyGraph nticks(left)=ntick_l
-	ModifyGraph nticks(bottom)=ntick_b
-	ModifyGraph manTick(left)={tickstart_l,tickinc_l,0,1}
-	ModifyGraph manTick(bottom)={tickstart_b,tickinc_b,0,1}
 	ModifyGraph btLen(left)=ticklength_l
 	ModifyGraph btLen(bottom)=ticklength_b
 	ModifyGraph btThick(left)=tickthickness_l
 	ModifyGraph btThick(bottom)=tickthickness_b
-	ModifyGraph tick(left)=tickposition_l
-	ModifyGraph tick(bottom)=tickposition_b
-	
+	ModifyGraph tlOffset(left)=tlOffset_l
+	ModifyGraph tlOffset(bottom)=tlOffset_b
+
 	SetAxis left range1_l,range2_l
 	SetAxis bottom range1_b,range2_b
 	
@@ -612,60 +629,6 @@ Function FigCon_Button_SetAxis(ctrlName) : ButtonControl
 End
 
 
-Function FigCon_Button_SetTicks(ctrlName) : ButtonControl
-	String ctrlName
-	
-	DFREF dfr = root:FigCon
-	
-	NVAR tickmode_l = dfr:GTick_l, tickmode_b = dfr:GTick_b
-	NVAR maintick_l = dfr:GNtick_l, maintick_b = dfr:GNtick_b
-	NVAR subtick_l = dfr:GNticksub_l, subtick_b = dfr:GNticksub_b
-
-	
-	variable tl,tb,sl,sb,ml,mb
-	tl = tickmode_l; tb = tickmode_b
-	sl = subtick_l; sb = subtick_b
-	ml = maintick_l; mb = maintick_b
-	
-	variable automanualchoice
-	string message1 = "Choose manual setting or drfalut(thickmode=outside, main ticks =5, sub ticks=0) "
-	Prompt automanualchoice, message1, popup, "manual;defalut"
-	Prompt tl, "Set left ticks mode: ", popup, "out;inside;mid;none"
-	Prompt tb, "Set bottom ticks mode: ", popup, "out;inside;mid;none"
-	Prompt ml, "Set left ticks number: "
-	Prompt mb, "Set bottom ticks number: "
-	Prompt sl, "Set left subticks number (0 is none): "
-	Prompt sb, "Set bottom subticks number (0 is none): "
-	
-	DoPrompt "Enter axis setting to Graph of top window", automanualchoice,tl, tb, ml, mb, sl, sb
-		
-	if(V_flag)	
-	 return 0 // user cancell
-	endif
-	
-	tl = tl-1; tb=tb-1 // shift -1 to let begining number to be 0
-
-	switch(automanualchoice)	
-		case 1:	// manual setting of axis			
-			if ((ml<0)||(mb<0)||(sl<0)||(sb<0)) // thicks must be positive
-				Abort "tick number must be positive"
-			return 0
-			endif
-			tickmode_l = tl; tickmode_b = tb
-	 		subtick_l = sl; subtick_b = sb
-			maintick_l = ml; maintick_b = mb	
-			break		
-		case 2:	// default setting of axis
-			tickmode_l = 0; tickmode_b = 0
-	 		subtick_l = 0; subtick_b = 0
-			maintick_l = 5; maintick_b = 5	
-			break
-	endswitch
-
-	////// Refelect to Graph
-	FigCon_UpdateGraph()
-	
-End
 
 
 Function FigCon_Button_SetSize(ctrlName) : ButtonControl
@@ -1400,3 +1363,151 @@ variable refnum
 	while(1)
 	
 end
+
+
+Function Figcon_popup_SetTicksMpde(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  //1:auto, 2:manual
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	NVAR tick_l = dfr:GTick_l,tick_b = dfr:GTick_b
+	NVAR ntick_l = dfr:GNtick_l,ntick_b = dfr:GNTick_b
+	NVAR tickstart_l = dfr:GmantickStart_l
+	NVAR tickstart_b = dfr:GmantickStart_b
+	NVAR tickinc_l = dfr:GmantickIncrement_l
+	NVAR tickinc_b = dfr:GmantickIncrement_b
+
+	
+	NVAR ticksmode = dfr:Gticksmode
+	
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	
+	ticksmode = popNum
+	
+	switch(popNum)	
+		case 1:	// auto ticks
+			ModifyGraph/W=$topwinname manTick(left)=0
+			ModifyGraph/W=$topwinname manTick(bottom)=0
+			ModifyGraph/W=$topwinname nticks(left)=ntick_l
+			ModifyGraph/W=$topwinname nticks(bottom)=ntick_b
+
+			break
+		case 2:	// manual ticks
+			ModifyGraph manTick(left)={tickstart_l,tickinc_l,0,1}
+			ModifyGraph manTick(bottom)={tickstart_b,tickinc_b,0,1}
+		
+	endswitch
+
+End
+
+
+
+
+Function FigCon_Panel_TicksSetting() 
+	PauseUpdate; Silent 1		// building window...
+	
+	NewPanel /W=(868,182,1145,398)/N=TicksSetting
+	ModifyPanel cbRGB=(16385,49025,65535)
+	SetDrawLayer UserBack
+	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (1,65535,33232)
+	DrawText 13,115,"Base value"
+	SetDrawEnv fstyle= 1,textrgb= (0,65535,65535)
+	DrawText 12,78,"Positon Mode"
+	SetDrawEnv textrgb= (32768,65535,65535)
+	DrawText 30,95,"0:outside, 1:middle, 2:inside, 3:none"
+	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (32792,65535,1)
+	DrawText 12,134,"Ticks length"
+	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (32792,65535,1)
+	DrawText 11,152,"Ticks thickness"
+	SetDrawEnv fstyle= 1,textrgb= (1,16019,65535)
+	DrawText 82,31,"ticks#"
+	SetDrawEnv fstyle= 1,textrgb= (1,16019,65535)
+	DrawText 11,57,"Manual ticks inc"
+	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (65535,65535,0)
+	DrawText 11,170,"Ticks Dicimal"
+	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (65535,49157,16385)
+	DrawText 11,188,"Ticks Away"
+	SetVariable FigCon_ManTickBaseL_setval,pos={92.00,100.00},size={80.00,17.00},bodyWidth=60,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickBaseL_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickBaseL_setval,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_l
+	SetVariable FigCon_ManTickBaseB_setval,pos={181.00,99.00},size={84.00,17.00},bodyWidth=60,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickBaseB_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickBaseB_setval,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_b
+	SetVariable FigCon_ManTickLengthL_setval,pos={113.00,119.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickLengthL_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickLengthL_setval,limits={0,inf,0.2},value= root:FigCon:GmantickLength_l
+	SetVariable FigCon_ManTickLengthB_setval,pos={201.00,119.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickLengthB_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickLengthB_setval,limits={0,inf,0.2},value= root:FigCon:GmantickLength_b
+	SetVariable FigCon_ManTickThkL_setval,pos={113.00,137.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickThkL_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickThkL_setval,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_l
+	SetVariable FigCon_ManTickThkB_setval,pos={201.00,137.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickThkB_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickThkB_setval,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_b
+	SetVariable FigCon_Manualticks_positionL,pos={113.00,64.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_positionL,help={"0:外側, 1:中央, 2:内側, 3:なし"}
+	SetVariable FigCon_Manualticks_positionL,font="Arial",fSize=12
+	SetVariable FigCon_Manualticks_positionL,limits={0,3,1},value= root:FigCon:GTick_l,noedit= 1
+	SetVariable FigCon_Manualticks_positionB,pos={201.00,64.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_Manualticks_positionB,help={"0:外側, 1:中央, 2:内側, 3:なし"}
+	SetVariable FigCon_Manualticks_positionB,font="Arial",fSize=12
+	SetVariable FigCon_Manualticks_positionB,limits={0,3,1},value= root:FigCon:GTick_b,noedit= 1
+	PopupMenu Figcon_TicksMode_popup,pos={4.00,14.00},size={74.00,23.00},bodyWidth=74,proc=Figcon_popup_SetTicksMpde
+	PopupMenu Figcon_TicksMode_popup,font="Arial",fSize=7
+	PopupMenu Figcon_TicksMode_popup,mode=2,popvalue="manual",value= #"\"auto;manual;\""
+	SetVariable FigCon_TicksLeft__setval,pos={118.00,15.00},size={63.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" left"
+	SetVariable FigCon_TicksLeft__setval,font="Arial",fSize=12
+	SetVariable FigCon_TicksLeft__setval,limits={0,inf,1},value= root:FigCon:GNtick_l
+	SetVariable FigCon_Manualticks_incL_setval,pos={109.00,39.00},size={67.00,19.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" left"
+	SetVariable FigCon_Manualticks_incL_setval,font="Arial",fSize=14
+	SetVariable FigCon_Manualticks_incL_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_l
+	SetVariable FigCon_TicksBottom__setval,pos={196.00,14.00},size={67.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" btm"
+	SetVariable FigCon_TicksBottom__setval,font="Arial",fSize=12
+	SetVariable FigCon_TicksBottom__setval,limits={0,inf,1},value= root:FigCon:GNtick_b
+	SetVariable FigCon_Manualticks_incB_setval,pos={194.00,38.00},size={69.00,18.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" btm"
+	SetVariable FigCon_Manualticks_incB_setval,font="Arial",fSize=13
+	SetVariable FigCon_Manualticks_incB_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_b
+	SetVariable FigCon_ManTickDicL_setval,pos={113.00,155.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickDicL_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickDicL_setval,limits={0,5,1},value= root:FigCon:GmantickDicimal_l
+	SetVariable FigCon_ManTickDicB_setval,pos={201.00,155.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickDicB_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickDicB_setval,limits={0,5,1},value= root:FigCon:GmantickDicimal_b
+	SetVariable FigCon_ManTickOffL_setval,pos={113.00,173.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickOffL_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickOffL_setval,limits={-5,5,0.5},value= root:FigCon:GtlOffset_l
+	SetVariable FigCon_ManTickOffB_setval,pos={201.00,173.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickOffB_setval,font="Arial",fSize=12
+	SetVariable FigCon_ManTickOffB_setval,limits={-5,5,0.5},value= root:FigCon:GtlOffset_b
+	Button FigCon_SizeSettingDone_button,pos={191.00,192.00},size={67.00,20.00},proc=FigCon_Button_TicksSettingDone,title="done"
+	Button FigCon_SizeSettingDone_button,fSize=10,fColor=(65535,32768,32768)
+	
+	End
+
+Function FigCon_Button_SetTicks(ctrlName) : ButtonControl
+	String ctrlName
+	
+	Dowindow  TicksSetting
+	if (V_flag==0)
+			FigCon_Panel_TicksSetting() 
+	elseif (V_flag==1)
+		Dowindow/F  TicksSetting
+	endif
+	
+	
+	
+End
+
+
+Function FigCon_Button_TicksSettingDone(ctrlName) : ButtonControl
+	String ctrlName
+	
+	Dowindow/K  TicksSetting
+	
+End
