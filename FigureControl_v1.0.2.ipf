@@ -225,6 +225,20 @@ Function FigCon_SetUPFigureControl()
 	SetFormula  root:FigCon:GTickStr_l  "root:FigCon:ticksstrings[root:FigCon:GTick_l]"
 	SetFormula  root:FigCon:GTickStr_b  "root:FigCon:ticksstrings[root:FigCon:GTick_b]"
 
+	String/G dfr:Gfont
+	String/G dfr:axisfontlist="normal;Arial;Helvetica;Helvetica Neue;Times;Times New Roman;"
+	
+	Variable/G dfr:GLabelMode_l,dfr:GLabelMode_b
+	String/G dfr:axislabelname="Binding Energy (eV);"
+	SVAR axislabelname = dfr:axislabelname
+	axislabelname+= "Binding energy (eV);B.E. (eV);Kinetic Energy (eV);Kinetic energy (eV);"
+	axislabelname+= "K.E. (eV);Energy (eV);Momentum (A-1);Momentum;"
+	axislabelname+= "Wave Vector;Wave vecotor;Wave Vector (A-1);Wave vecotor (A-1);"
+	axislabelname+= "Angle (deg);Angle;Intensity (arb. unit);Intensity (a.u.);"
+	axislabelname+= "k_x;k_y (A-1);k_y;k_y (A-1);k_z;k_z (A-1);k;k (A-1)"
+	String/G dfr:GlabelName_l,dfr:GlabelName_b
+	Variable/G dfr:GlabelFontSize_l,dfr:GlabelFontSize_b
+
 
 End
 
@@ -278,8 +292,11 @@ Function FigCon_ReadFromGraph()
 	NVAR tickdicimal_b = dfr:GmantickDicimal_b
 	NVAR tlOffset_l =dfr:GtlOffset_l
 	NVAR tlOffset_b =dfr:GtlOffset_b
+	SVAR font = dfr:Gfont
+	SVAR axisfontlist=dfr:axisfontlist
+	NVAR fsize_l=dfr:GFontSize_l,fsize_b=dfr:GFontSize_b
+	NVAR labelmode_l=dfr:GLabelMode_l,labelmode_b=dfr:GLabelMode_b
 
-	
 	NVAR xyswap=dfr:GSwap
 	NVAR axisflag=dfr:PastLink
 
@@ -327,7 +344,8 @@ Function FigCon_ReadFromGraph()
 	variable modeflag
 	modeflag = numberbyKey("manTick(x)",axisinfo_l,"=")
 	if (modeflag==0)  // manTick(x)=0であればauto
-		ticksmode =1		
+		ticksmode =1	
+		PopupMenu Figcon_TicksMode_popup win=FigureCont, mode=1
 	else
 		ticksmode =2 // mode manual
 		tickstart_l = FigCon_GetNumberInBracket2("manTick(x)",axisinfo_l,0)
@@ -336,9 +354,22 @@ Function FigCon_ReadFromGraph()
 		tickinc_b = FigCon_GetNumberInBracket2("manTick(x)",axisinfo_b,1)
 		tickdicimal_l = FigCon_GetNumberInBracket2("manTick(x)",axisinfo_l,3)
 		tickdicimal_b = FigCon_GetNumberInBracket2("manTick(x)",axisinfo_b,3)
+		PopupMenu Figcon_TicksMode_popup win=FigureCont, mode=2
 	endif
 	
-
+	font = StringByKey("FONT",axisinfo_l,":",";")
+	variable indexfont = WhichListItem(font,axisfontlist)+1
+	PopupMenu Figcon_Font_popup win=FigureCont, mode=indexfont
+	fsize_l=numberbyKey("fsize(x)",axisinfo_l,"=")
+	fsize_b=numberbyKey("fsize(x)",axisinfo_b,"=")
+	
+	labelmode_l=numberbyKey("noLabel(x)",axisinfo_l,"=")
+	labelmode_b=numberbyKey("noLabel(x)",axisinfo_b,"=")
+	DoWindow LabelSetting
+	if (V_flag==1)
+		PopupMenu Figcon_LabelModeL_popup,mode=(labelmode_l+1),win=LabelSetting
+		PopupMenu Figcon_LabelModeB_popup,mode=(labelmode_b+1),win=LabelSetting
+	endif
 
 End
 
@@ -374,6 +405,11 @@ Function FigCon_UpdateGraph()
 	NVAR tlOffset_l =dfr:GtlOffset_l
 	NVAR tlOffset_b =dfr:GtlOffset_b
 
+	SVAR font = dfr:Gfont
+	NVAR fsize_l=dfr:GFontSize_l,fsize_b=dfr:GFontSize_b
+	
+	NVAR labelmode_l=dfr:GLabelMode_l,labelmode_b=dfr:GLabelMode_b
+	SVAR LabelName_l = dfr:GlabelName_l,LabelName_b = dfr:GlabelName_b
 
 	NVAR xyswap=dfr:GSwap
 	NVAR axisflag=dfr:PastLink
@@ -421,6 +457,17 @@ Function FigCon_UpdateGraph()
 	ModifyGraph tlOffset(left)=tlOffset_l
 	ModifyGraph tlOffset(bottom)=tlOffset_b
 
+	
+	string fontname = "\""+font+"\""
+
+	Execute "ModifyGraph font="+fontname
+	ModifyGraph fSize(left)=fsize_l,fSize(bottom)=fsize_b
+	
+	ModifyGraph noLabel(left)=labelmode_l
+	ModifyGraph noLabel(bottom)=labelmode_b
+	label left, LabelName_l
+	label bottom, LabelName_b
+	
 	SetAxis left range1_l,range2_l
 	SetAxis bottom range1_b,range2_b
 	
@@ -943,6 +990,13 @@ Function FigCon_Button_SizeSettingDone(ctrlName) : ButtonControl
 	
 End
 
+Function FigCon_Button_LabelSettingDone(ctrlName) : ButtonControl
+	String ctrlName
+	
+	Dowindow/K  LabelSetting
+	
+End
+
 
 Function FigCon_SetVar_SizeSetting(ctrlName,varNum,varStr,varName) : SetVariableControl
 	String ctrlName
@@ -1408,6 +1462,10 @@ End
 Function FigCon_Panel_TicksSetting() 
 	PauseUpdate; Silent 1		// building window...
 	
+	DFREF dfr = root:FigCon
+	NVAR ticksmode = dfr:Gticksmode
+
+	
 	NewPanel /W=(868,182,1145,398)/N=TicksSetting
 	ModifyPanel cbRGB=(16385,49025,65535)
 	SetDrawLayer UserBack
@@ -1485,6 +1543,8 @@ Function FigCon_Panel_TicksSetting()
 	Button FigCon_SizeSettingDone_button,pos={191.00,192.00},size={67.00,20.00},proc=FigCon_Button_TicksSettingDone,title="done"
 	Button FigCon_SizeSettingDone_button,fSize=10,fColor=(65535,32768,32768)
 	
+	PopupMenu Figcon_TicksMode_popup,mode=ticksmode
+	
 	End
 
 Function FigCon_Button_SetTicks(ctrlName) : ButtonControl
@@ -1497,7 +1557,17 @@ Function FigCon_Button_SetTicks(ctrlName) : ButtonControl
 		Dowindow/F  TicksSetting
 	endif
 	
+End
+
+Function FigCon_Button_SetLabel(ctrlName) : ButtonControl
+	String ctrlName
 	
+	Dowindow  LabelSetting
+	if (V_flag==0)
+			FigCon_Panel_LabelSetting() 
+	elseif (V_flag==1)
+		Dowindow/F  LabelSetting
+	endif
 	
 End
 
@@ -1506,5 +1576,270 @@ Function FigCon_Button_TicksSettingDone(ctrlName) : ButtonControl
 	String ctrlName
 	
 	Dowindow/K  TicksSetting
+	
+End
+
+
+Function FigCon_popup_SetAxisFont(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR font = dfr:Gfont
+	
+	switch(popNum)	
+		case 1: //system font
+			font="default"
+			break
+		default:
+			font=popStr
+			break				
+	endswitch
+	
+	FigCon_UpdateGraph()
+
+End
+
+
+Function Figcon_popup_SetLabelMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  //1:ON, 2:axisonly, 3:OFF
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	NVAR labelmode_l=dfr:GLabelMode_l,labelmode_b=dfr:GLabelMode_b
+		
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	
+	string ctrlnamelist = "Figcon_LabelModeL_popup;Figcon_LabelModeB_popup;"
+	variable listindex = whichListItem(ctrlName,ctrlnamelist)
+		
+	switch(listindex)	
+		case 0:	// left axis label
+			labelmode_l = popNum - 1
+			
+			break
+		case 1:	// bottom axis label
+			labelmode_b = popNum - 1
+			break
+	endswitch
+
+	FigCon_UpdateGraph()
+	
+End
+
+
+Function Figcon_popup_SetLabelName(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	SVAR LabelName_l = dfr:GlabelName_l,LabelName_b = dfr:GlabelName_b
+	SVAR axislabel_list = dfr:axislabelname
+	NVAR fsize_l=dfr:GlabelFontSize_l,fsize_b=dfr:GlabelFontSize_b
+
+	String labelname
+	
+	switch(popnum)	
+		case 8:
+			labelname = "Momentum (Å\S-1\M)"
+			break
+		case 12:
+			labelname = "Wave Vector (Å\S-1\M)"
+			break
+		case 13:
+			labelname = "Wave vector (Å\S-1\M)"
+			break
+		case 18:
+			labelname = "\f02k\B\f00x"
+			break
+		case 19:
+			labelname = "\\f02k\\B\\f00x\\M (Å\\S-1\\M)"
+			break
+		case 20:
+			labelname = "\f02k\B\f00y"
+			break
+		case 21:
+			labelname = "\\f02k\\B\\f00y\\M (Å\\S-1\\M)"
+			break
+		case 22:
+			labelname = "\f02k\B\f00z"
+			break
+		case 23:
+			labelname = "\\f02k\\B\\f00z\\M (Å\\S-1\\M)"
+			break
+		case 24:
+			labelname = "\f02k"
+			break
+		case 25:
+			labelname = "\\f02k \\f00(Å\\S-1\\M)"
+			break
+		default:		
+			labelname = StringFromList((popnum-1),axislabel_list)
+			print popnum,labelname
+			break
+	endswitch
+	
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	
+	string ctrlnamelist = "Figcon_LabeAxisL_popup;Figcon_LabeAxisB_popup;"
+	variable axisindex = whichListItem(ctrlName,ctrlnamelist)
+	variable fontsize
+	switch(axisindex)	
+		case 0:	// left axis label
+			fontsize = fsize_l
+			LabelName_l = FigCon_ChangeLabelFontSize(labelname,fontsize)
+			break
+		case 1:	// bottom axis label
+			fontsize = fsize_b
+			LabelName_b = FigCon_ChangeLabelFontSize(labelname,fontsize)
+			break
+	endswitch
+
+	FigCon_UpdateGraph()
+	
+End
+
+
+
+Function FigCon_setvar_SetLabelName(ctrlName,varNum,varStr,varName) : SetVariableControl
+	String ctrlName
+	Variable varNum
+	String varStr
+	String varName
+	
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+
+	
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	
+	FigCon_UpdateGraph()
+
+End
+
+
+Function FigCon_setvar_SetLabeFontSize(ctrlName,varNum,varStr,varName) : SetVariableControl
+	String ctrlName
+	Variable varNum
+	String varStr
+	String varName
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	SVAR LabelName_l = dfr:GlabelName_l,LabelName_b = dfr:GlabelName_b
+	NVAR fsize_l=dfr:GlabelFontSize_l,fsize_b=dfr:GlabelFontSize_b
+
+	String labelname
+	
+	if (strlen(topwinname)==0)
+		abort "No window graph is specified."
+	 return -1
+	endif
+	
+	string ctrlnamelist = "Figcon_LabelFontSizeL_setvar;Figcon_LabelFontSizeB_setvar;"
+	variable axisindex = whichListItem(ctrlName,ctrlnamelist)
+		
+	switch(axisindex)	
+		case 0:	// left axis label
+			labelname = LabelName_l
+			LabelName_l = FigCon_ChangeLabelFontSize(labelname,varNum)
+			break
+		case 1:	// bottom axis label
+			labelname = LabelName_b
+			LabelName_b = FigCon_ChangeLabelFontSize(labelname,varNum)
+			break
+	endswitch
+
+	
+	FigCon_UpdateGraph()
+
+End
+
+Function/S FigCon_ChangeLabelFontSize(labelstring,labelfontsize)
+String labelstring
+Variable labelfontsize
+
+	String ChString
+	Variable prefontsize,index
+	
+	if(cmpstr(labelstring[1],"Z")==0)
+		index = 2
+		Do
+			if(numtype(str2num(labelstring[index]))==2)
+				break
+			endif
+			index = index +1
+		while(1)
+		String schar = labelstring[2,index-1]
+		prefontsize = str2num(schar)
+		ChString = labelstring[index,inf]		
+	else
+		ChString = labelstring
+	endif
+	
+	if (labelfontsize!=0)
+		if (labelfontsize>9)
+			ChString = "\Z" + num2str(labelfontsize) + ChString
+		elseif(labelfontsize<10)
+			ChString = "\Z0" + num2str(labelfontsize) + ChString
+		endif
+	endif
+	
+	return ChString
+end
+
+
+Function FigCon_Panel_LabelSetting() 
+	PauseUpdate; Silent 1		// building window...
+	
+	DFREF dfr = root:FigCon
+	NVAR labelmode_l=dfr:GLabelMode_l,labelmode_b=dfr:GLabelMode_b
+
+
+	//Panel Displaying
+	NewPanel /W=(290,242,568,389)/N=LabelSetting
+	ModifyPanel cbRGB=(16385,49025,65535)
+	SetDrawLayer UserBack
+	PopupMenu Figcon_LabelModeL_popup,pos={9.00,6.00},size={106.00,23.00},bodyWidth=74,proc=Figcon_popup_SetLabelMode,title="L label"
+	PopupMenu Figcon_LabelModeL_popup,font="Arial",fSize=10
+	PopupMenu Figcon_LabelModeL_popup,mode=(labelmode_l+1),value= #"\"ON;AxisOnly;OFF;\""
+	PopupMenu Figcon_LabelModeB_popup,pos={125.00,6.00},size={111.00,23.00},bodyWidth=74,proc=Figcon_popup_SetLabelMode,title="B Label"
+	PopupMenu Figcon_LabelModeB_popup,font="Arial",fSize=10
+	PopupMenu Figcon_LabelModeB_popup,mode=(labelmode_b+1),value= #"\"ON;AxisOnly;OFF;\""
+	PopupMenu Figcon_LabeAxisL_popup,pos={9.00,30.00},size={169.00,23.00},bodyWidth=140,proc=Figcon_popup_SetLabelName,title="L Axis"
+	PopupMenu Figcon_LabeAxisL_popup,font="Arial",fSize=10
+	PopupMenu Figcon_LabeAxisL_popup,mode=1,value= #":FigCon:axislabelname"
+	SetVariable FigCon_LabelNameL_setvar,pos={8.00,53.00},size={257.00,19.00},bodyWidth=230,proc=FigCon_setvar_SetLabelName,title="Left"
+	SetVariable FigCon_LabelNameL_setvar,font="Arial",fSize=14
+	SetVariable FigCon_LabelNameL_setvar,limits={-inf,inf,0},value= root:FigCon:GlabelName_l
+	PopupMenu Figcon_LabeAxisB_popup,pos={9.00,78.00},size={171.00,23.00},bodyWidth=140,proc=Figcon_popup_SetLabelName,title="B Axis"
+	PopupMenu Figcon_LabeAxisB_popup,font="Arial",fSize=10
+	PopupMenu Figcon_LabeAxisB_popup,mode=14,value= #":FigCon:axislabelname"
+	SetVariable FigCon_LabelNameL_setvar1,pos={7.00,101.00},size={259.00,19.00},bodyWidth=230,proc=FigCon_setvar_SetLabelName,title="Btm"
+	SetVariable FigCon_LabelNameL_setvar1,font="Arial",fSize=14
+	SetVariable FigCon_LabelNameL_setvar1,limits={-inf,inf,0},value= root:FigCon:GlabelName_b
+	SetVariable Figcon_LabelFontSizeL_setvar,pos={179.00,31.00},size={79.00,17.00},bodyWidth=50,proc=FigCon_setvar_SetLabeFontSize,title=" size"
+	SetVariable Figcon_LabelFontSizeL_setvar,font="Arial",fSize=12
+	SetVariable Figcon_LabelFontSizeL_setvar,limits={0,inf,1},value= root:FigCon:GlabelFontSize_l
+	SetVariable Figcon_LabelFontSizeB_setvar,pos={179.00,78.00},size={79.00,17.00},bodyWidth=50,proc=FigCon_setvar_SetLabeFontSize,title=" size"
+	SetVariable Figcon_LabelFontSizeB_setvar,font="Arial",fSize=12
+	SetVariable Figcon_LabelFontSizeB_setvar,limits={0,inf,1},value= root:FigCon:GlabelFontSize_b
+	Button FigCon_LabelSettingDone_button,pos={196.00,122.00},size={67.00,20.00},proc=FigCon_Button_LabelSettingDone,title="done"
+	Button FigCon_LabelSettingDone_button,fSize=10,fColor=(65535,32768,32768)
 	
 End
