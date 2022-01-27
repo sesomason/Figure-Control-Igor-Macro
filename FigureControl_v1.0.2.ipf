@@ -11,34 +11,28 @@ Window FigureCont() : Panel
 	PauseUpdate; Silent 1		// building window...
 	FigCon_SetUPFigureControl()
 	
-	NewPanel /W=(615,79,823,449)
+	NewPanel /W=(777,86,985,456)
 	ModifyPanel cbRGB=(16385,49025,65535)
 	SetDrawLayer UserBack
-	SetDrawEnv fstyle= 1,textrgb= (32769,65535,32768)
-	DrawText 17,322,"Axis Range"
-	SetDrawEnv fsize= 10
-	DrawText 72,173,"left"
-	SetDrawEnv fsize= 10
-	DrawText 132,173,"btm"
-	SetDrawEnv fsize= 10
-	DrawText 73,193,"left"
-	SetDrawEnv fsize= 10
-	DrawText 132,193,"btm"
 	SetDrawEnv fsize= 9,textrgb= (65535,54611,49151)
-	DrawText 112,145,"s.off"
+	DrawText 118,146,"s.off"
 	SetDrawEnv fsize= 9,textrgb= (65535,60076,49151)
-	DrawText 175,145,"s.off"
-	SetDrawEnv textrgb= (65535,60076,49151)
-	DrawText 33,173,"mirror"
+	DrawText 185,146,"s.off"
 	SetDrawEnv fname= "Arial",fsize= 10
-	DrawText 79,209,"auto#"
+	DrawText 79,216,"auto#"
 	SetDrawEnv fname= "Arial",fsize= 10
-	DrawText 111,208,"incl."
+	DrawText 114,215,"incl."
 	SetDrawEnv fname= "Arial",fsize= 10
-	DrawText 177,207,"incl."
+	DrawText 177,214,"incl."
 	SetDrawEnv fname= "Arial",fsize= 10
-	DrawText 145,208,"auto#"
-	DrawLine 8,287,205,287
+	DrawText 145,215,"auto#"
+	DrawLine 8,266,205,266
+	SetDrawEnv fsize= 10,fstyle= 1,textrgb= (65535,65535,65535)
+	DrawText 7,116,"Margin"
+	SetDrawEnv fsize= 10,fstyle= 1,textrgb= (65535,65535,65535)
+	DrawText 7,150,"Axis"
+	SetDrawEnv fsize= 10,fstyle= 1,textrgb= (65535,65535,65535)
+	DrawText 11,66,"Size"
 	Button FigCon_TopWin_button,pos={17.00,5.00},size={41.00,16.00},proc=FigCon_Button_Topwindow,title="TopW"
 	Button FigCon_TopWin_button,font="Arial",fSize=10
 	Button FigCon_Done_button,pos={157.00,4.00},size={35.00,16.00},proc=FigCon_Button_Done,title="done"
@@ -46,104 +40,34 @@ Window FigureCont() : Panel
 	TitleBox FigCon_TopWinn_title,pos={66.00,3.00},size={80.00,19.00}
 	TitleBox FigCon_TopWinn_title,labelBack=(65535,65535,65535),font="Arial"
 	TitleBox FigCon_TopWinn_title,variable= root:FigCon:TopWindowName,fixedSize=1
-	SetVariable setvar01,pos={107.00,327.00},size={80.00,15.00},bodyWidth=60,title="low"
+	SetVariable setvar01,pos={123.00,302.00},size={80.00,15.00},bodyWidth=60,title="low"
 	SetVariable setvar01,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar01,limits={-inf,inf,0.05},value= root:FigCon:GRange1_l
-	SetVariable setvar02,pos={18.00,326.00},size={85.00,15.00},bodyWidth=60,title="high"
+	SetVariable setvar02,pos={34.00,301.00},size={85.00,15.00},bodyWidth=60,title="high"
 	SetVariable setvar02,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar02,limits={-inf,inf,0.05},value= root:FigCon:GRange2_l
-	SetVariable setvar03,pos={25.00,343.00},size={79.00,15.00},bodyWidth=60,title="left"
+	SetVariable setvar03,pos={41.00,318.00},size={79.00,15.00},bodyWidth=60,title="left"
 	SetVariable setvar03,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar03,limits={-inf,inf,0.05},value= root:FigCon:GRange1_b
-	SetVariable setvar04,pos={102.00,344.00},size={85.00,15.00},bodyWidth=60,title="right"
+	SetVariable setvar04,pos={118.00,319.00},size={85.00,15.00},bodyWidth=60,title="right"
 	SetVariable setvar04,font="Helvetica",fSize=11,fColor=(32769,65535,32768)
 	SetVariable setvar04,limits={-inf,inf,0.05},value= root:FigCon:GRange2_b
 	Button FigCon_Load_button,pos={10.00,26.00},size={52.00,30.00},proc=FigCon_Button_LoadFormat,title="Choese\r Format"
 	Button FigCon_Load_button,font="Arial",fSize=10,fColor=(49151,49152,65535)
 	Button FigCon_Save_button,pos={65.00,26.00},size={52.00,30.00},proc=FigCon_Button_SaveFormat,title="Save\rFormat"
 	Button FigCon_Save_button,font="Arial",fSize=10,fColor=(49151,49152,65535)
-	CheckBox FigCon_XYswap_check,pos={14.00,87.00},size={54.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
+	CheckBox FigCon_XYswap_check,pos={4.00,87.00},size={54.00,16.00},proc=FigCon_Check_SwapXY,title="XY Swap"
 	CheckBox FigCon_XYswap_check,font="Arial",variable= root:FigCon:GSwap
-	Button FigCon_SetMargin_button,pos={15.00,106.00},size={49.00,24.00},proc=FigCon_Button_SetMargin,title="margin"
-	Button FigCon_SetMargin_button,font="Arial",fSize=11,fColor=(65535,65534,49151)
-	ValDisplay FigCon_MaginLeft_valdisp,pos={72.00,103.00},size={44.00,15.00},bodyWidth=25,title="left"
-	ValDisplay FigCon_MaginLeft_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_MaginLeft_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_MaginLeft_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_MaginLeft_valdisp,value= #"root:FigCon:GMarg_l"
-	ValDisplay FigCon_MaginRight_valdisp,pos={124.00,102.00},size={50.00,15.00},bodyWidth=25,title="right"
-	ValDisplay FigCon_MaginRight_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_MaginRight_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_MaginRight_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_MaginRight_valdisp,value= #"root:FigCon:GMarg_r"
-	ValDisplay FigCon_MaginTop_valdisp,pos={72.00,120.00},size={44.00,15.00},bodyWidth=25,title="top"
-	ValDisplay FigCon_MaginTop_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_MaginTop_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_MaginTop_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_MaginTop_valdisp,value= #"root:FigCon:GMarg_t"
-	ValDisplay FigCon_MaginBottom_valdisp,pos={127.00,120.00},size={47.00,15.00},bodyWidth=25,title="btm"
-	ValDisplay FigCon_MaginBottom_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_MaginBottom_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_MaginBottom_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_MaginBottom_valdisp,value= #"root:FigCon:GMarg_b"
-	TitleBox FigCon_MirrorLeft_title,pos={91.00,159.00},size={40.00,16.00}
-	TitleBox FigCon_MirrorLeft_title,labelBack=(65535,65535,65535),fSize=9,frame=5
-	TitleBox FigCon_MirrorLeft_title,variable= root:FigCon:GMirrorStr_l,anchor= LC,fixedSize=1
-	TitleBox FigCon_MirrorBottom_title,pos={154.00,159.00},size={40.00,16.00}
-	TitleBox FigCon_MirrorBottom_title,labelBack=(65535,65535,65535),fSize=9,frame=5
-	TitleBox FigCon_MirrorBottom_title,variable= root:FigCon:GMirrorStr_b,anchor= LC,fixedSize=1
-	Button FigCon_SetAxis_button,pos={15.00,137.00},size={49.00,24.00},proc=FigCon_Button_SetAxis,title="axis"
-	Button FigCon_SetAxis_button,font="Arial",fSize=11,fColor=(65535,54611,49151)
-	Button FigCon_SetTicks_button,pos={15.00,176.00},size={49.00,24.00},proc=FigCon_Button_SetTicks,title="ticks"
-	Button FigCon_SetTicks_button,fSize=11,fColor=(49151,49152,65535)
-	TitleBox FigCon_TickstypeL_title,pos={91.00,178.00},size={40.00,16.00}
-	TitleBox FigCon_TickstypeL_title,labelBack=(65535,65535,65535),fSize=9,frame=5
-	TitleBox FigCon_TickstypeL_title,variable= root:FigCon:GTickStr_l,anchor= LC,fixedSize=1
-	TitleBox FigCon_TickstypeB_title,pos={155.00,178.00},size={40.00,16.00}
-	TitleBox FigCon_TickstypeB_title,labelBack=(65535,65535,65535),fSize=9,frame=5
-	TitleBox FigCon_TickstypeB_title,variable= root:FigCon:GTickStr_b,anchor= LC,fixedSize=1
-	ValDisplay FigCon_AxisTickLeft_valdisp,pos={72.00,142.00},size={37.00,14.00},bodyWidth=20,title="\\Z10left"
-	ValDisplay FigCon_AxisTickLeft_valdisp,font="Helvetica",fSize=11
-	ValDisplay FigCon_AxisTickLeft_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_AxisTickLeft_valdisp,value= #"root:FigCon:GAxisthick_l"
-	ValDisplay FigCon_AxisTickBottom_valdisp,pos={132.00,142.00},size={41.00,14.00},bodyWidth=20,title="\\Z10btm"
-	ValDisplay FigCon_AxisTickBottom_valdisp,font="Helvetica",fSize=11
-	ValDisplay FigCon_AxisTickBottom_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_AxisTickBottom_valdisp,value= #"root:FigCon:GAxisthick_b"
-	CheckBox check2,pos={114.00,142.00},size={15.00,15.00},disable=2,title=""
-	CheckBox check2,variable= root:FigCon:GAxisStandoff_l,mode=1
-	CheckBox check3,pos={177.00,142.00},size={15.00,15.00},disable=2,title=""
-	CheckBox check3,variable= root:FigCon:GAxisStandoff_b,mode=1
-	TitleBox FigCon_MirrorLeft_title1,pos={117.00,65.00},size={35.00,16.00}
-	TitleBox FigCon_MirrorLeft_title1,font="Arial",fSize=9,frame=5
-	TitleBox FigCon_MirrorLeft_title1,variable= root:FigCon:GSizeStr_w,anchor= LC,fixedSize=1
-	ValDisplay FigCon_Gwidth_valdisp,pos={67.00,65.00},size={47.00,15.00},bodyWidth=35,title="w"
-	ValDisplay FigCon_Gwidth_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_Gwidth_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_Gwidth_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_Gwidth_valdisp,value= #"root:FigCon:GWidth"
-	ValDisplay FigCon_Gheight_valdisp,pos={69.00,84.00},size={45.00,15.00},bodyWidth=35,title="h"
-	ValDisplay FigCon_Gheight_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_Gheight_valdisp,valueBackColor=(65535,43688,32768)
-	ValDisplay FigCon_Gheight_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_Gheight_valdisp,value= #"root:FigCon:GHeight"
-	TitleBox FigCon_MirrorLeft_title2,pos={117.00,84.00},size={35.00,16.00}
-	TitleBox FigCon_MirrorLeft_title2,font="Arial",fSize=9,frame=5
-	TitleBox FigCon_MirrorLeft_title2,variable= root:FigCon:GSizeStr_h,anchor= LC,fixedSize=1
-	ValDisplay FigCon_GaspectW_valdisp,pos={154.00,65.00},size={35.00,15.00},bodyWidth=35
-	ValDisplay FigCon_GaspectW_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_GaspectW_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_GaspectW_valdisp,value= #"root:FigCon:Gaspect_w"
-	ValDisplay FigCon_GaspectH_valdisp,pos={154.00,84.00},size={35.00,15.00},bodyWidth=35
-	ValDisplay FigCon_GaspectH_valdisp,font="Arial",fSize=11
-	ValDisplay FigCon_GaspectH_valdisp,limits={0,0,0},barmisc={0,1000}
-	ValDisplay FigCon_GaspectH_valdisp,value= #"root:FigCon:Gaspect_h"
-	Button FigCon_SetSize_button,pos={15.00,63.00},size={49.00,24.00},proc=FigCon_Button_SetSize,title="size"
-	Button FigCon_SetSize_button,font="Arial",fSize=11,fColor=(65535,65532,16385)
-	SetVariable FigCon_ManTickIncL_setval,pos={108.00,207.00},size={24.00,16.00},bodyWidth=24,proc=FigCon_Setval_ManualtickControll,title=" "
+	Button FigCon_SetTicks_button,pos={8.00,183.00},size={49.00,24.00},proc=FigCon_Button_SetTicks,title="ticks"
+	Button FigCon_SetTicks_button,fSize=11,fColor=(65535,65532,16385)
+	CheckBox FigCon_StandOffL_check,pos={121.00,142.00},size={15.00,16.00},proc=FigCon_Check_StandOff,title=""
+	CheckBox FigCon_StandOffL_check,variable= root:FigCon:GAxisStandoff_l
+	CheckBox FigCon_StandOffB_check,pos={191.00,142.00},size={15.00,16.00},proc=FigCon_Check_StandOff,title=""
+	CheckBox FigCon_StandOffB_check,value= 0
+	SetVariable FigCon_ManTickIncL_setval,pos={111.00,214.00},size={24.00,16.00},bodyWidth=24,proc=FigCon_Setval_JustUpdataGraph,title=" "
 	SetVariable FigCon_ManTickIncL_setval,font="Arial",fSize=10
 	SetVariable FigCon_ManTickIncL_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_l
-	SetVariable FigCon_ManTickIncB_setval,pos={175.00,206.00},size={24.00,16.00},bodyWidth=24,proc=FigCon_Setval_ManualtickControll,title=" "
+	SetVariable FigCon_ManTickIncB_setval,pos={175.00,213.00},size={24.00,16.00},bodyWidth=24,proc=FigCon_Setval_JustUpdataGraph,title=" "
 	SetVariable FigCon_ManTickIncB_setval,font="Arial",fSize=10
 	SetVariable FigCon_ManTickIncB_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_b
 	TitleBox FigCon_TextFileName_title,pos={123.00,26.00},size={80.00,14.00}
@@ -153,15 +77,93 @@ Window FigureCont() : Panel
 	PopupMenu Figcon_TextFile_popup,pos={121.00,41.00},size={80.00,23.00},bodyWidth=80,proc=Figcon_popup_TextFileSaveLoad,title="File..."
 	PopupMenu Figcon_TextFile_popup,font="Arial",fSize=7
 	PopupMenu Figcon_TextFile_popup,mode=0,value= #"\"SaveList;SaveListAs;LoadList;\""
-	PopupMenu Figcon_TicksMode_popup,pos={15.00,204.00},size={50.00,23.00},bodyWidth=50,proc=Figcon_popup_SetTicksMpde
+	PopupMenu Figcon_TicksMode_popup,pos={3.00,209.00},size={71.00,23.00},bodyWidth=71,proc=Figcon_popup_SetTicksMpde
 	PopupMenu Figcon_TicksMode_popup,font="Arial",fSize=7
-	PopupMenu Figcon_TicksMode_popup,mode=1,popvalue="auto",value= #"\"auto;manual;\""
-	SetVariable FigCon_TicksNumB_setval,pos={135.00,206.00},size={41.00,16.00},bodyWidth=18,proc=FigCon_Setval_ManualtickControll,title=" btm"
+	PopupMenu Figcon_TicksMode_popup,mode=2,popvalue="manual",value= #"\"auto;manual;\""
+	SetVariable FigCon_TicksNumB_setval,pos={135.00,213.00},size={41.00,16.00},bodyWidth=18,proc=FigCon_Setval_JustUpdataGraph,title=" btm"
 	SetVariable FigCon_TicksNumB_setval,font="Arial",fSize=10
 	SetVariable FigCon_TicksNumB_setval,limits={0,inf,0},value= root:FigCon:GNtick_b
-	SetVariable FigCon_TicksNumL_setval,pos={69.00,207.00},size={38.00,16.00},bodyWidth=18,proc=FigCon_Setval_ManualtickControll,title=" left"
+	SetVariable FigCon_TicksNumL_setval,pos={72.00,214.00},size={38.00,16.00},bodyWidth=18,proc=FigCon_Setval_JustUpdataGraph,title=" left"
 	SetVariable FigCon_TicksNumL_setval,font="Arial",fSize=10
 	SetVariable FigCon_TicksNumL_setval,limits={0,inf,0},value= root:FigCon:GNtick_l
+	PopupMenu Figcon_Font_popup,pos={56.00,240.00},size={80.00,23.00},bodyWidth=80,proc=FigCon_popup_SetAxisFont
+	PopupMenu Figcon_Font_popup,mode=6,popvalue="Arial",value= #"\"default;Times;Times New Roman;Helvetica;Helvetica Neue;Arial;\""
+	SetVariable FigCon_FontSizeL_setval,pos={136.00,242.00},size={35.00,16.00},bodyWidth=35,proc=FigCon_Setval_JustUpdataGraph,title=" "
+	SetVariable FigCon_FontSizeL_setval,font="Arial",fSize=11
+	SetVariable FigCon_FontSizeL_setval,limits={1,100,1},value= root:FigCon:GFontSize_l
+	SetVariable FigCon_FontSizeB_setval,pos={169.00,242.00},size={35.00,16.00},bodyWidth=35,proc=FigCon_Setval_JustUpdataGraph,title=" "
+	SetVariable FigCon_FontSizeB_setval,font="Arial",fSize=11
+	SetVariable FigCon_FontSizeB_setval,limits={1,100,1},value= root:FigCon:GFontSize_b
+	Button FigCon_SetLabel_button,pos={9.00,237.00},size={46.00,24.00},proc=FigCon_Button_SetLabel,title="label"
+	Button FigCon_SetLabel_button,fSize=11,fColor=(65535,65532,16385)
+	Button FigCon_ExportGraph_button,pos={10.00,270.00},size={46.00,24.00},title="Export"
+	Button FigCon_ExportGraph_button,fSize=11,fColor=(65535,54607,32768)
+	Button FigCon_MakeFrame_button,pos={59.00,269.00},size={46.00,24.00},title="Frame"
+	Button FigCon_MakeFrame_button,fSize=11,fColor=(65535,54607,32768)
+	Button FigCon_ChangeKinBin_button,pos={109.00,270.00},size={46.00,24.00},title="Kin/Bin"
+	Button FigCon_ChangeKinBin_button,fSize=11,fColor=(65535,54607,32768)
+	Button FigCon_ChangeKinBin_button1,pos={158.00,270.00},size={46.00,24.00},title="Kin/Bin"
+	Button FigCon_ChangeKinBin_button1,fSize=11,fColor=(65535,54607,32768)
+	SetVariable FigCon_MaginLeft__setval,pos={72.00,102.00},size={63.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" left"
+	SetVariable FigCon_MaginLeft__setval,font="Arial",fSize=12
+	SetVariable FigCon_MaginLeft__setval,valueBackColor=(65535,43688,32768)
+	SetVariable FigCon_MaginLeft__setval,limits={1,100,1},value= root:FigCon:GMarg_l
+	SetVariable FigCon_MaginRight__setval,pos={142.00,102.00},size={61.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" rgt"
+	SetVariable FigCon_MaginRight__setval,font="Arial",fSize=12
+	SetVariable FigCon_MaginRight__setval,valueBackColor=(65535,43688,32768)
+	SetVariable FigCon_MaginRight__setval,limits={1,100,1},value= root:FigCon:GMarg_r
+	SetVariable FigCon_MaginBottom__setval,pos={68.00,120.00},size={67.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" btm"
+	SetVariable FigCon_MaginBottom__setval,font="Arial",fSize=12
+	SetVariable FigCon_MaginBottom__setval,valueBackColor=(65535,43688,32768)
+	SetVariable FigCon_MaginBottom__setval,limits={1,100,1},value= root:FigCon:GMarg_b
+	SetVariable FigCon_MaginTop_setval,pos={138.00,120.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" top"
+	SetVariable FigCon_MaginTop_setval,font="Arial",fSize=12
+	SetVariable FigCon_MaginTop_setval,valueBackColor=(65535,43688,32768)
+	SetVariable FigCon_MaginTop_setval,limits={1,100,1},value= root:FigCon:GMarg_t
+	PopupMenu Figcon_SetMarginMode_popup,pos={2.00,115.00},size={67.00,23.00},bodyWidth=67,proc=Figcon_popup_SetMarginMode
+	PopupMenu Figcon_SetMarginMode_popup,font="Arial",fSize=7
+	PopupMenu Figcon_SetMarginMode_popup,mode=1,popvalue="manual",value= #"\"manual;auto;none\""
+	SetVariable FigCon_AxisTickLeft__setval,pos={67.00,142.00},size={52.00,16.00},bodyWidth=32,proc=FigCon_Setval_JustUpdataGraph,title=" left"
+	SetVariable FigCon_AxisTickLeft__setval,font="Arial",fSize=10
+	SetVariable FigCon_AxisTickLeft__setval,limits={1,100,1},value= root:FigCon:GAxisthick_l
+	SetVariable FigCon_AxisTickBtm__setval,pos={135.00,142.00},size={55.00,16.00},bodyWidth=32,proc=FigCon_Setval_JustUpdataGraph,title=" btm"
+	SetVariable FigCon_AxisTickBtm__setval,font="Arial",fSize=10
+	SetVariable FigCon_AxisTickBtm__setval,limits={1,100,1},value= root:FigCon:GAxisthick_b
+	PopupMenu Figcon_SetMirrorAxisModeL_popup,pos={74.00,158.00},size={60.00,23.00},bodyWidth=60,proc=FigCon_PopUp_SetMirrorAxisMode
+	PopupMenu Figcon_SetMirrorAxisModeL_popup,font="Arial"
+	PopupMenu Figcon_SetMirrorAxisModeL_popup,mode=3,popvalue="no tick",value= #"\"off;on;no tick;label\""
+	PopupMenu Figcon_SetMirrorAxisModeB_popup,pos={144.00,158.00},size={60.00,23.00},bodyWidth=60,proc=FigCon_PopUp_SetMirrorAxisMode
+	PopupMenu Figcon_SetMirrorAxisModeB_popup,font="Arial"
+	PopupMenu Figcon_SetMirrorAxisModeB_popup,mode=3,popvalue="no tick",value= #"\"off;on;no tick;label\""
+	PopupMenu Figcon_SetMarginMode_popup1,pos={2.00,149.00},size={67.00,23.00},bodyWidth=67,proc=Figcon_popup_SetAxisMode
+	PopupMenu Figcon_SetMarginMode_popup1,font="Arial",fSize=7
+	PopupMenu Figcon_SetMarginMode_popup1,mode=1,popvalue="manual",value= #"\"manual;default\""
+	PopupMenu Figcon_ticlksModeL_popup,pos={59.00,183.00},size={70.00,23.00},bodyWidth=55,proc=FigCon_PopUp_SetTicksMode,title="left"
+	PopupMenu Figcon_ticlksModeL_popup,font="Arial"
+	PopupMenu Figcon_ticlksModeL_popup,mode=1,popvalue="out",value= #"\"out;in;mid;none\""
+	PopupMenu Figcon_ticlksModeB_popup,pos={132.00,183.00},size={73.00,23.00},bodyWidth=55,proc=FigCon_PopUp_SetTicksMode,title="btm"
+	PopupMenu Figcon_ticlksModeB_popup,font="Arial"
+	PopupMenu Figcon_ticlksModeB_popup,mode=1,popvalue="out",value= #"\"out;in;mid;none\""
+	SetVariable FigCon_Gwidth_setvar,pos={64.00,64.00},size={50.00,16.00},bodyWidth=38,proc=FigCon_SetVar_SizeSetting,title="w"
+	SetVariable FigCon_Gwidth_setvar,font="Arial",fSize=11
+	SetVariable FigCon_Gwidth_setvar,limits={0,inf,0},value= root:FigCon:GWidth
+	SetVariable FigCon_Gheight_setvar,pos={66.00,84.00},size={48.00,16.00},bodyWidth=38,proc=FigCon_SetVar_SizeSetting,title="h"
+	SetVariable FigCon_Gheight_setvar,font="Arial",fSize=11
+	SetVariable FigCon_Gheight_setvar,limits={0,inf,0},value= root:FigCon:GHeight
+	PopupMenu FigCon_ModeWidth_popup,pos={116.00,63.00},size={50.00,23.00},bodyWidth=50,proc=FigCon_popup_SetSizeMode
+	PopupMenu FigCon_ModeWidth_popup,mode=2,popvalue="abs",value= #"\"auto;abs;unit;aspect;plan;\""
+	PopupMenu FigCon_ModeHeight_popup,pos={115.00,83.00},size={50.00,23.00},bodyWidth=50,proc=FigCon_popup_SetSizeMode
+	PopupMenu FigCon_ModeHeight_popup,mode=2,popvalue="abs",value= #"\"auto;abs;unit;aspect;plan;\""
+	SetVariable FigCon_aspectWidth_setvar,pos={165.00,65.00},size={40.00,16.00},bodyWidth=40,disable=2,title=" "
+	SetVariable FigCon_aspectWidth_setvar,font="Arial",fSize=11
+	SetVariable FigCon_aspectWidth_setvar,limits={0.1,10,0.1},value= root:FigCon:Gaspect_w
+	SetVariable FigCon_aspectHeight_setvar,pos={166.00,84.00},size={40.00,16.00},bodyWidth=40,disable=2,title=" "
+	SetVariable FigCon_aspectHeight_setvar,font="Arial",fSize=11
+	SetVariable FigCon_aspectHeight_setvar,limits={0.1,10,0.1},value= root:FigCon:Gaspect_h
+	PopupMenu FigCon_Auto_popup,pos={6.00,66.00},size={55.00,23.00},bodyWidth=55,proc=FigCon_popup_SetSizeAuto
+	PopupMenu FigCon_Auto_popup,font="Arial"
+	PopupMenu FigCon_Auto_popup,mode=1,popvalue="man",value= #"\"man;auto;abs\""
+
 EndMacro
 
 
@@ -339,6 +341,10 @@ Function FigCon_ReadFromGraph()
 	mirror_b = numberbyKey("mirror(x)",axisinfo_b,"=")
 	tlOffset_l = numberbyKey("tlOffset(x)",axisinfo_l,"=")
 	tlOffset_b = numberbyKey("tlOffset(x)",axisinfo_b,"=")
+	PopupMenu Figcon_ticlksModeL_popup mode=(tick_l+1),win=FigureCont
+	PopupMenu Figcon_ticlksModeB_popup mode=(tick_b+1),win=FigureCont
+	PopupMenu Figcon_SetMirrorAxisModeL_popup mode=(mirror_l+1),win=FigureCont
+	PopupMenu Figcon_SetMirrorAxisModeB_popup mode=(mirror_b+1),win=FigureCont
 
 
 	variable modeflag
@@ -591,6 +597,44 @@ Function FigCon_Button_SetMargin(ctrlName) : ButtonControl
 	
 End
 
+Function Figcon_popup_SetMarginMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	NVAR margin_l = dfr:GMarg_l, margin_b = dfr:GMarg_b,margin_t = dfr:GMarg_t,margin_r = dfr:GMarg_r
+	
+	variable ml = margin_l, mb = margin_b, mt = margin_t, mr = margin_r
+	
+	switch(popNum)
+	
+		case 1:	// manual setting of margins	
+			// margin cannot be positive (except for -1)
+			if (((ml<-1)&&(ml!=-1))||((mr<-1)&&(mr!=-1))||((mt<-1)&&(mt!=-1))||((mb<-1)&&(mb!=-1)))
+				Abort "margin must be positive value (except for setting of none[-1])"
+			return 0
+			endif
+			FigCon_UpdateGraph()
+	
+			break		
+		case 2:	// auto setting of margins	to 0 (automargin)
+			Dowindow/F $topwinname
+			ModifyGraph margin(left)=0, margin(bottom)=0, margin(top)=0,margin(right)=0
+
+			break
+		case 3:	// auto setting of margins	to -1 (no margin)
+			Dowindow/F $topwinname
+			ModifyGraph margin(left)=-1, margin(bottom)=-1, margin(top)=-1,margin(right)=-1
+			break
+	endswitch
+	
+	
+End
+
+
+
 
 Function FigCon_Button_SetAxis(ctrlName) : ButtonControl
 	String ctrlName
@@ -668,6 +712,7 @@ Function FigCon_Button_SetSize(ctrlName) : ButtonControl
 	endif
 	
 	FigCon_SizeSettingRefresh()
+	FigCon_FigureContSizeRefresh()
 	
 End
 
@@ -766,71 +811,39 @@ Function FigCon_SizeSettingRefresh()
 End		
 
 
-Function FigCon_popup_SetSizeMode(ctrlName,popNum,popStr) : PopupMenuControl
-	String ctrlName
-	Variable popNum
-	String popStr
-	
+Function FigCon_FigureContSizeRefresh()
+
 	DFREF dfr = root:FigCon
-	NVAR  grawidth = dfr:GWidth, graheight = dfr:GHeight
-	NVAR  mode_w = dfr:Gsizemode_w, mode_h = dfr:Gsizemode_h
-	NVAR aspect_w = dfr:Gaspect_w, aspect_h = dfr:Gaspect_h
-	NVAR actwidth = dfr:ActWidth
-	NVAR actheight = dfr:ActHeight
-	SVAR topwinname = dfr:TopWindowName
+	NVAR smw = dfr:Gsizemode_w,smh = dfr:Gsizemode_h
+	
+	PopupMenu FigCon_ModeWidth_popup,win=FigureCont,mode=(smw+1)
+	PopupMenu FigCon_ModeHeight_popup,win=FigureCont,mode=(smh+1)
+	
+	if ((smw<3)&&(smh<3))
+		SetVariable FigCon_Gwidth_setvar win=FigureCont,disable=0
+		SetVariable FigCon_Gheight_setvar win=FigureCont,disable=0
+		SetVariable FigCon_aspectHeight_setvar win=FigureCont,disable=2
+		SetVariable FigCon_aspectWidth_setvar win=FigureCont,disable=2
+	elseif ((smw>=3)&&(smh<3))
+		SetVariable FigCon_Gwidth_setvar win=FigureCont,disable=2
+		SetVariable FigCon_Gheight_setvar win=FigureCont,disable=0
+		SetVariable FigCon_aspectHeight_setvar win=FigureCont,disable=2
+		SetVariable FigCon_aspectWidth_setvar win=FigureCont,disable=0
+	elseif ((smw<3)&&(smh>=3))
+		SetVariable FigCon_Gwidth_setvar win=SizeSetting,disable=0
+		SetVariable FigCon_Gheight_setvar win=SizeSetting,disable=2
+		SetVariable FigCon_aspectHeight_setvar win=SizeSetting,disable=0
+		SetVariable FigCon_aspectWidth_setvar win=SizeSetting,disable=2
+	elseif ((smw>=3)&&(smh>=3))
+		SetVariable FigCon_Gwidth_setvar win=FigureCont,disable=2
+		SetVariable FigCon_Gheight_setvar win=FigureCont,disable=2
+		SetVariable FigCon_aspectHeight_setvar win=FigureCont,disable=2
+		SetVariable FigCon_aspectWidth_setvar win=FigureCont,disable=2
+	endif
 
-	Getwindow/Z $topwinname,psize
-	actwidth= V_right-V_left
-	actheight = V_bottom-V_top
-	
-	variable range_w, range_h
-	getaxis/Q/W=$topwinname left
-	range_h = abs(v_max-v_min)
-	getaxis/Q/W=$topwinname bottom
-	range_w = abs(v_max-v_min)
-		
-	string ctrlnamelist = "SizeSetting_ModeWidth_popup;SizeSetting_ModeHeight_popup;"
-	variable listindex = whichListItem(ctrlName,ctrlnamelist)
+End		
 
-	switch(listindex)	
-		case 0:	// width control mode		
-			mode_w = popNum - 1
-			switch(mode_w)	
-				case 0: //auto
-					ModifyGraph width=0
-					grawidth = 0
-					break
-				case 1:	// absolute
-					grawidth=actwidth
-					break		
-				case 2:	// perUnit
-					grawidth=actwidth/range_w
-					print range_w,actwidth
-					break
-			endswitch
-			break		
-		case 1:	// height control mode		
-			mode_h = popNum - 1
-			switch(mode_h)	
-				case 0: //auto
-					ModifyGraph height=0
-					graheight = 0
-					break
-				case 1:	// absolute
-					graheight = actheight
-					break		
-				case 2:	// perUnit
-					graheight = actheight/range_h
-					print range_h,actheight
-					break
-			endswitch	
-			break
-	endswitch
-	
-	
-	FigCon_SizeSettingRefresh()
-	
-End
+
 
 
 Function FigCon_UpdateGraphSize()
@@ -849,18 +862,18 @@ Function FigCon_UpdateGraphSize()
 	switch(mode_w)	
 		case 0: //auto
 			grawidth = 0
-			ModifyGraph width = 0
+			ModifyGraph/W=$topwinname width = 0
 		case 1:	// absolute
-			ModifyGraph width=grawidth
+			ModifyGraph/W=$topwinname width=grawidth
 			break		
 		case 2:	// perUnit
-			ModifyGraph width={perUnit,grawidth,bottom}
+			ModifyGraph/W=$topwinname width={perUnit,grawidth,bottom}
 			break
 		case 3:	// Aspect
-			ModifyGraph width={Aspect,aspect_w}
+			ModifyGraph/W=$topwinname width={Aspect,aspect_w}
 			break
 		case 4:	// Plan
-			ModifyGraph width={Plan,aspect_w,bottom,left}
+			ModifyGraph/W=$topwinname width={Plan,aspect_w,bottom,left}
 			break
 	endswitch
 	
@@ -868,18 +881,18 @@ Function FigCon_UpdateGraphSize()
 	switch(mode_h)	
 		case 0: //auto
 			graheight = 0
-			ModifyGraph height = 0
+			ModifyGraph/W=$topwinname height = 0
 		case 1:	// absolute
-			ModifyGraph height=graheight
+			ModifyGraph/W=$topwinname height=graheight
 			break		
 		case 2:	// perUnit
-			ModifyGraph height={perUnit,graheight,left}
+			ModifyGraph/W=$topwinname height={perUnit,graheight,left}
 			break
 		case 3:	// Aspect
-			ModifyGraph height={Aspect,aspect_h}
+			ModifyGraph/W=$topwinname height={Aspect,aspect_h}
 			break
 		case 4:	// Plan
-			ModifyGraph height={Plan,aspect_h,left,bottom}
+			ModifyGraph/W=$topwinname height={Plan,aspect_h,left,bottom}
 			break
 	endswitch
 
@@ -976,10 +989,12 @@ Function FigCon_ReadGraphSize()
 	endif
 	//	print "height",sh,modestr,modenum,str2num(p2)
 
-	Dowindow SizeSetting
-	if(V_flag==1)
-	FigCon_SizeSettingRefresh()
-	endif
+//	Dowindow SizeSetting
+//	if(V_flag==1)
+//	FigCon_SizeSettingRefresh()
+//	endif
+	
+	FigCon_FigureContSizeRefresh()
 
 End
 
@@ -1006,7 +1021,8 @@ Function FigCon_SetVar_SizeSetting(ctrlName,varNum,varStr,varName) : SetVariable
 	
 	FigCon_UpdateGraphSize()
 	
-	FigCon_SizeSettingRefresh()
+	//FigCon_SizeSettingRefresh()
+	FigCon_FigureContSizeRefresh()
 	
 
 End
@@ -1047,7 +1063,8 @@ Function FigCon_popup_SetSizeAuto(ctrlName,popNum,popStr) : PopupMenuControl
 		
 	endswitch
 	
-	FigCon_SizeSettingRefresh()
+	//FigCon_SizeSettingRefresh()
+	FigCon_FigureContSizeRefresh()
 
 End
 
@@ -1078,11 +1095,12 @@ Function FigCon_Check_SwapXY(ctrlName,checked) : CheckBoxControl
 	
 End
 
-Function FigCon_Setval_ManualtickControll(ctrlName,varNum,varStr,varName) : SetVariableControl
+Function FigCon_Setval_JustUpdataGraph(ctrlName,varNum,varStr,varName) : SetVariableControl
 	String ctrlName
 	Variable varNum
 	String varStr
 	String varName
+	
 	FigCon_UpdateGraph()
 	
 End
@@ -1487,61 +1505,62 @@ Function FigCon_Panel_TicksSetting()
 	DrawText 11,170,"Ticks Dicimal"
 	SetDrawEnv fsize= 13,fstyle= 1,textrgb= (65535,49157,16385)
 	DrawText 11,188,"Ticks Away"
-	SetVariable FigCon_ManTickBaseL_setval,pos={92.00,100.00},size={80.00,17.00},bodyWidth=60,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickBaseL_setval,pos={92.00,100.00},size={80.00,17.00},bodyWidth=60,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_ManTickBaseL_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickBaseL_setval,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_l
-	SetVariable FigCon_ManTickBaseB_setval,pos={181.00,99.00},size={84.00,17.00},bodyWidth=60,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickBaseB_setval,pos={181.00,99.00},size={84.00,17.00},bodyWidth=60,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_ManTickBaseB_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickBaseB_setval,limits={-inf,inf,0.1},value= root:FigCon:GmantickStart_b
-	SetVariable FigCon_ManTickLengthL_setval,pos={113.00,119.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickLengthL_setval,pos={113.00,119.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_ManTickLengthL_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickLengthL_setval,limits={0,inf,0.2},value= root:FigCon:GmantickLength_l
-	SetVariable FigCon_ManTickLengthB_setval,pos={201.00,119.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickLengthB_setval,pos={201.00,119.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_ManTickLengthB_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickLengthB_setval,limits={0,inf,0.2},value= root:FigCon:GmantickLength_b
-	SetVariable FigCon_ManTickThkL_setval,pos={113.00,137.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickThkL_setval,pos={113.00,137.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_ManTickThkL_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickThkL_setval,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_l
-	SetVariable FigCon_ManTickThkB_setval,pos={201.00,137.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickThkB_setval,pos={201.00,137.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_ManTickThkB_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickThkB_setval,limits={0,inf,0.1},value= root:FigCon:GmantickThickness_b
-	SetVariable FigCon_Manualticks_positionL,pos={113.00,64.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_Manualticks_positionL,pos={113.00,64.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_Manualticks_positionL,help={"0:外側, 1:中央, 2:内側, 3:なし"}
 	SetVariable FigCon_Manualticks_positionL,font="Arial",fSize=12
 	SetVariable FigCon_Manualticks_positionL,limits={0,3,1},value= root:FigCon:GTick_l,noedit= 1
-	SetVariable FigCon_Manualticks_positionB,pos={201.00,64.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_Manualticks_positionB,pos={201.00,64.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_Manualticks_positionB,help={"0:外側, 1:中央, 2:内側, 3:なし"}
 	SetVariable FigCon_Manualticks_positionB,font="Arial",fSize=12
 	SetVariable FigCon_Manualticks_positionB,limits={0,3,1},value= root:FigCon:GTick_b,noedit= 1
 	PopupMenu Figcon_TicksMode_popup,pos={4.00,14.00},size={74.00,23.00},bodyWidth=74,proc=Figcon_popup_SetTicksMpde
 	PopupMenu Figcon_TicksMode_popup,font="Arial",fSize=7
 	PopupMenu Figcon_TicksMode_popup,mode=2,popvalue="manual",value= #"\"auto;manual;\""
-	SetVariable FigCon_TicksLeft__setval,pos={118.00,15.00},size={63.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" left"
+	SetVariable FigCon_TicksLeft__setval,pos={118.00,15.00},size={63.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" left"
 	SetVariable FigCon_TicksLeft__setval,font="Arial",fSize=12
 	SetVariable FigCon_TicksLeft__setval,limits={0,inf,1},value= root:FigCon:GNtick_l
-	SetVariable FigCon_Manualticks_incL_setval,pos={109.00,39.00},size={67.00,19.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" left"
+	SetVariable FigCon_Manualticks_incL_setval,pos={109.00,39.00},size={67.00,19.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" left"
 	SetVariable FigCon_Manualticks_incL_setval,font="Arial",fSize=14
 	SetVariable FigCon_Manualticks_incL_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_l
-	SetVariable FigCon_TicksBottom__setval,pos={196.00,14.00},size={67.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" btm"
+	SetVariable FigCon_TicksBottom__setval,pos={196.00,14.00},size={67.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" btm"
 	SetVariable FigCon_TicksBottom__setval,font="Arial",fSize=12
 	SetVariable FigCon_TicksBottom__setval,limits={0,inf,1},value= root:FigCon:GNtick_b
-	SetVariable FigCon_Manualticks_incB_setval,pos={194.00,38.00},size={69.00,18.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title=" btm"
+	SetVariable FigCon_Manualticks_incB_setval,pos={194.00,38.00},size={69.00,18.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title=" btm"
 	SetVariable FigCon_Manualticks_incB_setval,font="Arial",fSize=13
 	SetVariable FigCon_Manualticks_incB_setval,limits={0,inf,0},value= root:FigCon:GmantickIncrement_b
-	SetVariable FigCon_ManTickDicL_setval,pos={113.00,155.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickDicL_setval,pos={113.00,155.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_ManTickDicL_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickDicL_setval,limits={0,5,1},value= root:FigCon:GmantickDicimal_l
-	SetVariable FigCon_ManTickDicB_setval,pos={201.00,155.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickDicB_setval,pos={201.00,155.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_ManTickDicB_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickDicB_setval,limits={0,5,1},value= root:FigCon:GmantickDicimal_b
-	SetVariable FigCon_ManTickOffL_setval,pos={113.00,173.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="left"
+	SetVariable FigCon_ManTickOffL_setval,pos={113.00,173.00},size={60.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="left"
 	SetVariable FigCon_ManTickOffL_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickOffL_setval,limits={-5,5,0.5},value= root:FigCon:GtlOffset_l
-	SetVariable FigCon_ManTickOffB_setval,pos={201.00,173.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_ManualtickControll,title="btm"
+	SetVariable FigCon_ManTickOffB_setval,pos={201.00,173.00},size={64.00,17.00},bodyWidth=40,proc=FigCon_Setval_JustUpdataGraph,title="btm"
 	SetVariable FigCon_ManTickOffB_setval,font="Arial",fSize=12
 	SetVariable FigCon_ManTickOffB_setval,limits={-5,5,0.5},value= root:FigCon:GtlOffset_b
 	Button FigCon_SizeSettingDone_button,pos={191.00,192.00},size={67.00,20.00},proc=FigCon_Button_TicksSettingDone,title="done"
 	Button FigCon_SizeSettingDone_button,fSize=10,fColor=(65535,32768,32768)
+	
 	
 	PopupMenu Figcon_TicksMode_popup,mode=ticksmode
 	
@@ -1841,5 +1860,209 @@ Function FigCon_Panel_LabelSetting()
 	SetVariable Figcon_LabelFontSizeB_setvar,limits={0,inf,1},value= root:FigCon:GlabelFontSize_b
 	Button FigCon_LabelSettingDone_button,pos={196.00,122.00},size={67.00,20.00},proc=FigCon_Button_LabelSettingDone,title="done"
 	Button FigCon_LabelSettingDone_button,fSize=10,fColor=(65535,32768,32768)
+	
+End
+
+
+
+	
+Function FigCon_Check_StandOff(ctrlName,checked) : CheckBoxControl
+	String ctrlName
+	Variable checked
+	
+	DFREF dfr = root:FigCon
+	
+	SVAR topwinname = dfr:TopWindowName
+	NVAR standoff_l = dfr:GAxisStandoff_l, standoff_b = dfr:GAxisStandoff_b
+
+	string ctrlnamelist = "FigCon_StandOffL_check;FigCon_StandOffB_check;"
+	variable axisindex = whichListItem(ctrlName,ctrlnamelist)
+		
+
+	switch(axisindex)	
+		case 0:	// left axis label
+			standoff_l = checked
+			ModifyGraph/W=$topwinname standoff(left)=standoff_l
+			break
+		case 1:	// bottom axis label
+			standoff_b = checked
+			ModifyGraph/W=$topwinname  standoff(bottom)=standoff_b
+			break
+	endswitch
+
+	
+End
+
+
+Function FigCon_PopUp_SetMirrorAxisMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum
+	String popStr
+
+	
+	DFREF dfr = root:FigCon
+	
+	SVAR topwinname = dfr:TopWindowName
+	NVAR mirror_l = dfr:GMirror_l, mirror_b = dfr:GMirror_b
+
+	string ctrlnamelist = "Figcon_SetMirrorAxisModeL_popup;Figcon_SetMirrorAxisModeB_popup;"
+	variable axisindex = whichListItem(ctrlName,ctrlnamelist)
+		
+
+	switch(axisindex)	
+		case 0:	// left axis label
+			mirror_l = popNum-1
+			ModifyGraph/W=$topwinname mirror(left)=mirror_l
+			break
+		case 1:	// bottom axis label
+			mirror_b = popNum-1
+			ModifyGraph/W=$topwinname  mirror(bottom)=mirror_b
+			break
+	endswitch
+
+End
+
+
+Function Figcon_popup_SetAxisMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum  
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	NVAR axisthick_l = dfr:GAxisthick_l, axisthick_b = dfr:GAxisthick_b
+	NVAR standoff_l = dfr:GAxisStandoff_l, standoff_b = dfr:GAxisStandoff_b
+	NVAR mirror_l = dfr:GMirror_l, mirror_b = dfr:GMirror_b
+	
+	
+	variable tl,tb,sl,sb,ml,mb
+	tl = axisthick_l; tb = axisthick_b
+	sl = standoff_l; sb = standoff_b
+	ml = mirror_l; mb = mirror_b
+	
+	switch(popNum)	
+	
+		case 1:	// manual setting of axis
+			
+			// thickness must be positive, mirror mode is whitin 0 to 3
+			if ((tl<0)||(tb<0)||(ml<0)||(ml>3)||(mb<0)||(mb>3))
+				Abort "thickness must be positive, mirror mode is whitin 0 to 3"
+			return 0
+			endif
+	
+			break		
+		case 2:	// default setting of axis
+			axisthick_l = 1; axisthick_b = 1
+			standoff_l = 1; standoff_b = 1
+			mirror_l = 2; mirror_b = 2
+			ModifyGraph/W=$topwinname mirror(left)=2
+			ModifyGraph/W=$topwinname mirror(bottom)=2
+			ModifyGraph/W=$topwinname standoff(left)=1
+			ModifyGraph/W=$topwinname standoff(bottom)=1
+			ModifyGraph/W=$topwinname axThick(left)=1
+			ModifyGraph/W=$topwinname axThick(bottom)=1
+			PopupMenu Figcon_SetMirrorAxisModeL_popup mode=3,win=FigureCont
+			PopupMenu Figcon_SetMirrorAxisModeB_popup mode=3,win=FigureCont
+
+			break
+	
+	endswitch
+
+	
+End
+
+
+Function FigCon_PopUp_SetTicksMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum
+	String popStr
+
+	
+	DFREF dfr = root:FigCon
+	
+	SVAR topwinname = dfr:TopWindowName
+	NVAR tick_l = dfr:GTick_l,tick_b = dfr:GTick_b
+
+	string ctrlnamelist = "Figcon_ticlksModeL_popup;Figcon_ticlksModeB_popup;"
+	variable axisindex = whichListItem(ctrlName,ctrlnamelist)
+		
+
+	switch(axisindex)	
+		case 0:	// left axis label
+			tick_l =  popNum-1
+			ModifyGraph tick(left)=tick_l
+			break
+		case 1:	// bottom axis label
+			tick_b =  popNum-1
+			ModifyGraph tick(bottom)=tick_b
+			break
+	endswitch
+
+End
+
+Function FigCon_popup_SetSizeMode(ctrlName,popNum,popStr) : PopupMenuControl
+	String ctrlName
+	Variable popNum
+	String popStr
+	
+	DFREF dfr = root:FigCon
+	NVAR  grawidth = dfr:GWidth, graheight = dfr:GHeight
+	NVAR  mode_w = dfr:Gsizemode_w, mode_h = dfr:Gsizemode_h
+	NVAR aspect_w = dfr:Gaspect_w, aspect_h = dfr:Gaspect_h
+	NVAR actwidth = dfr:ActWidth
+	NVAR actheight = dfr:ActHeight
+	SVAR topwinname = dfr:TopWindowName
+
+	Getwindow/Z $topwinname,psize
+	actwidth= V_right-V_left
+	actheight = V_bottom-V_top
+	
+	variable range_w, range_h
+	getaxis/Q/W=$topwinname left
+	range_h = abs(v_max-v_min)
+	getaxis/Q/W=$topwinname bottom
+	range_w = abs(v_max-v_min)
+		
+	string ctrlnamelist = "FigCon_ModeWidth_popup;FigCon_ModeHeight_popup;"
+	variable listindex = whichListItem(ctrlName,ctrlnamelist)
+
+	switch(listindex)	
+		case 0:	// width control mode		
+			mode_w = popNum - 1
+			switch(mode_w)	
+				case 0: //auto
+					ModifyGraph width=0
+					grawidth = 0
+					break
+				case 1:	// absolute
+					grawidth=actwidth
+					break		
+				case 2:	// perUnit
+					grawidth=actwidth/range_w
+					print range_w,actwidth
+					break
+			endswitch
+			break		
+		case 1:	// height control mode		
+			mode_h = popNum - 1
+			switch(mode_h)	
+				case 0: //auto
+					ModifyGraph height=0
+					graheight = 0
+					break
+				case 1:	// absolute
+					graheight = actheight
+					break		
+				case 2:	// perUnit
+					graheight = actheight/range_h
+					print range_h,actheight
+					break
+			endswitch	
+			break
+	endswitch
+	
+	
+	//FigCon_SizeSettingRefresh()
+	FigCon_FigureContSizeRefresh()
 	
 End
