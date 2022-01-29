@@ -140,10 +140,10 @@ Window FigureCont() : Panel
 	PopupMenu Figcon_SetMarginMode_popup1,mode=1,popvalue="manual",value= #"\"manual;default\""
 	PopupMenu Figcon_ticlksModeL_popup,pos={59.00,183.00},size={70.00,23.00},bodyWidth=55,proc=FigCon_PopUp_SetTicksMode,title="left"
 	PopupMenu Figcon_ticlksModeL_popup,font="Arial"
-	PopupMenu Figcon_ticlksModeL_popup,mode=1,popvalue="out",value= #"\"out;in;mid;none\""
+	PopupMenu Figcon_ticlksModeL_popup,mode=1,popvalue="out",value= #"\"out;mid;in;none\""
 	PopupMenu Figcon_ticlksModeB_popup,pos={132.00,183.00},size={73.00,23.00},bodyWidth=55,proc=FigCon_PopUp_SetTicksMode,title="btm"
 	PopupMenu Figcon_ticlksModeB_popup,font="Arial"
-	PopupMenu Figcon_ticlksModeB_popup,mode=1,popvalue="out",value= #"\"out;in;mid;none\""
+	PopupMenu Figcon_ticlksModeB_popup,mode=1,popvalue="out",value= #"\"out;mid;in;none\""
 	SetVariable FigCon_Gwidth_setvar,pos={64.00,64.00},size={50.00,16.00},bodyWidth=38,proc=FigCon_SetVar_SizeSetting,title="w"
 	SetVariable FigCon_Gwidth_setvar,font="Arial",fSize=11
 	SetVariable FigCon_Gwidth_setvar,limits={0,inf,0},value= root:FigCon:GWidth
@@ -163,7 +163,6 @@ Window FigureCont() : Panel
 	PopupMenu FigCon_Auto_popup,pos={6.00,66.00},size={55.00,23.00},bodyWidth=55,proc=FigCon_popup_SetSizeAuto
 	PopupMenu FigCon_Auto_popup,font="Arial"
 	PopupMenu FigCon_Auto_popup,mode=1,popvalue="man",value= #"\"man;auto;abs\""
-
 EndMacro
 
 
@@ -228,6 +227,7 @@ Function FigCon_SetUPFigureControl()
 	SetFormula  root:FigCon:GTickStr_b  "root:FigCon:ticksstrings[root:FigCon:GTick_b]"
 
 	String/G dfr:Gfont
+	Variable/G dfr:GFontSize_l, dfr:GFontSize_b
 	String/G dfr:axisfontlist="normal;Arial;Helvetica;Helvetica Neue;Times;Times New Roman;"
 	
 	Variable/G dfr:GLabelMode_l,dfr:GLabelMode_b
