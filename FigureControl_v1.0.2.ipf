@@ -1083,15 +1083,28 @@ Function FigCon_Check_SwapXY(ctrlName,checked) : CheckBoxControl
 	NVAR margin_l = dfr:GMarg_l, margin_b = dfr:GMarg_b,margin_t = dfr:GMarg_t,margin_r = dfr:GMarg_r
 	
 	SVAR topwinname = dfr:TopWindowName
+	
+	NVAR gwidth=dfr:GWidth, awidth=dfr:ActWidth
+	NVAR ghight=dfr:GHeight, ahight=dfr:ActHeight
+	variable wid,hig,awid,ahig
+	wid = gwidth;hig=ghight;awid=awidth;ahig=ahight
 		
 	Dowindow/F $topwinname
 	
+	xyswap = checked
+
 	
-	ModifyGraph swapXY=xyswap
+	ModifyGraph swapXY=checked
 	ModifyGraph margin(left) = margin_b, margin(bottom) = margin_l
 	ModifyGraph margin(top) = margin_r, margin(right) = margin_t
 	
 	FigCon_ReadFromGraph()
+	
+	gwidth = hig
+	ghight = wid
+	awidth = ahig
+	ahight = awid
+	FigCon_UpdateGraphSize()
 	
 End
 
@@ -2031,15 +2044,16 @@ Function FigCon_popup_SetSizeMode(ctrlName,popNum,popStr) : PopupMenuControl
 			mode_w = popNum - 1
 			switch(mode_w)	
 				case 0: //auto
-					ModifyGraph width=0
+					ModifyGraph/W=$topwinname width=0
 					grawidth = 0
 					break
 				case 1:	// absolute
 					grawidth=actwidth
+					ModifyGraph/W=$topwinname width=grawidth
 					break		
 				case 2:	// perUnit
 					grawidth=actwidth/range_w
-					print range_w,actwidth
+					FigCon_UpdateGraphSize()
 					break
 			endswitch
 			break		
@@ -2047,15 +2061,16 @@ Function FigCon_popup_SetSizeMode(ctrlName,popNum,popStr) : PopupMenuControl
 			mode_h = popNum - 1
 			switch(mode_h)	
 				case 0: //auto
-					ModifyGraph height=0
+					ModifyGraph/W=$topwinname height=0
 					graheight = 0
 					break
 				case 1:	// absolute
 					graheight = actheight
+					ModifyGraph/W=$topwinname width=graheight
 					break		
 				case 2:	// perUnit
 					graheight = actheight/range_h
-					print range_h,actheight
+					FigCon_UpdateGraphSize()
 					break
 			endswitch	
 			break
