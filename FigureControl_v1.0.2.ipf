@@ -911,21 +911,26 @@ Function FigCon_ReadGraphSize()
 	NVAR ah=dfr:ActHeight
 	NVAR w_mode = dfr:Gsizemode_w, h_mode = dfr:Gsizemode_h
 	NVAR w_aspect = dfr:Gaspect_w, h_aspect = dfr:Gaspect_h
+	NVAR xyswap=dfr:GSwap
 
 	
 	string graphinfo = WinRecreation(topwinname,0)
 	
 	Getwindow/Z $topwinname,psize
-	aw = V_right-V_left
-	ah = V_bottom-V_top
-
-
-	string sw,sh
+	aw = V_right-V_left   // not changed by swap
+	ah = V_bottom-V_top	// not changed by swap
+	
+	string sw,sh, bufferstr
 	sw = FigCon_GetSizeInfo("width",graphinfo)
 	sh = FigCon_GetSizeInfo("height",graphinfo)
 	string modelist="perUnit;Aspect;Plan;",modestr
 	variable modenum
 	
+	if (xyswap==1)  //winrecreation内の情報はswap==1のときは全て逆転
+		bufferstr = sw
+		sw = sh
+		sh = bufferstr
+	endif
 	
 	if(cmpstr(sw,"",2)==0) // case of auto
 		w_mode = 0
@@ -956,7 +961,6 @@ Function FigCon_ReadGraphSize()
 				break
 		endswitch
 	endif
-//	print "width",sw,modestr,modenum,str2num(p1)
 	
 	if(cmpstr(sh,"",2)==0) // case of auto
 		h_mode = 0
@@ -1305,6 +1309,7 @@ Function FigCon_Button_LoadFormat(ctrlName) : ButtonControl
 	string formatname =  StringFromList(formatindex-1,Adaptformatlist)
 	FigCon_LoadFormat(formatindex-1) 
 	FigCon_UpdateGraph()
+	FigCon_UpdateGraphSize()
 	print "Foremat of "+formatname+" is adapted."
 	
 End
@@ -2079,5 +2084,99 @@ Function FigCon_popup_SetSizeMode(ctrlName,popNum,popStr) : PopupMenuControl
 	
 	//FigCon_SizeSettingRefresh()
 	FigCon_FigureContSizeRefresh()
+	
+End
+
+
+Function FigCon_Button_ExportGraph(ctrlName) : ButtonControl
+	String ctrlName
+	
+	DFREF dfr = root:FigCon
+
+	String format
+	variable sizechoice, ovrewrite=1
+	Prompt format, "Choose picture format", popup, "jpg;tiff;eps;pdf;"
+	Prompt sizechoice, "Choose picture size(resolution)", popup, "x1;x2;x4;x5;x8;"
+	Prompt ovrewrite, "Choose picture format (y/n)", popup, "yes;no;"
+	DoPrompt "Export Graph", format,sizechoice,ovrewrite
+	
+	if(V_flag)	
+	 return 0 // user cancell
+	endif
+	
+	variable sizemul = str2num(StringFromList(sizechoice-1,"1;2;4;5;8;"))
+	
+	FigCon_ExportGraph (format,sizemul,ovrewrite)
+	
+End
+
+Function FigCon_ExportGraph (format,sizemul,ovrewrite)
+string format
+variable sizemul, ovrewrite
+
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+	SVAR filepath = dfr:graphsavepath
+
+	variable bsize = sizemul * 72
+	string overw=""
+	if (ovrewrite==1)
+		overw="/O"
+	endif
+	
+	
+	variable picturetype = WhichListItem(format,"jpg;tiff;eps;pdf;")
+	String command1 
+	
+	switch(picturetype)
+		case 0:	// jpg
+			command1 = "SavePICT"+"/E=-6"+"/B="
+			command1 +=num2str(bsize) + overw +"/WIN=" + topwinname
+			break
+		case 1:	// jpg
+			command1 = "SavePICT"+"/E=-7"+"/B="
+			command1 +=num2str(bsize) + overw +"/WIN=" + topwinname
+			break
+		case 2:	// eps
+			command1 = "SavePICT"+"/E=-3"
+			command1 += overw +"/WIN=" + topwinname
+			break
+		case 3:	// pdf
+			command1 = "SavePICT"+"/E=-2"
+			command1 += overw +"/WIN=" + topwinname
+			break			
+	endswitch
+	
+	if(cmpstr(command1,"")==1)
+			Execute command1
+	endif
+	
+end
+
+
+Function FigCon_Button_FrameExport(ctrlName) : ButtonControl
+	String ctrlName
+	
+	DFREF dfr = root:FigCon
+	SVAR topwinname = dfr:TopWindowName
+
+	FigCon_ReadFromGraph()
+	FigCon_ReadGraphSize()
+	
+	Make/N=1/D/O dummy
+	dummy = 0
+	Display dummy
+	string pretowname = topwinname
+	topwinname = WinName(0,1)
+	
+	FigCon_UpdateGraph()
+	FigCon_UpdateGraphSize()
+	
+	SavePICT/E=-2
+	Dowindow/K $topwinname
+	killwaves dummy
+	
+	topwinname = pretowname
+	
 	
 End
