@@ -2097,7 +2097,7 @@ Function FigCon_Button_ExportGraph(ctrlName) : ButtonControl
 	variable sizechoice, ovrewrite=1
 	Prompt format, "Choose picture format", popup, "jpg;tiff;eps;pdf;"
 	Prompt sizechoice, "Choose picture size(resolution)", popup, "x1;x2;x4;x5;x8;"
-	Prompt ovrewrite, "Choose picture format (y/n)", popup, "yes;no;"
+	Prompt ovrewrite, "do you overwrite (y/n)?", popup, "yes;no;"
 	DoPrompt "Export Graph", format,sizechoice,ovrewrite
 	
 	if(V_flag)	
